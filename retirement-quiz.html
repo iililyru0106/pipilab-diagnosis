@@ -565,7 +565,6 @@
                 <input type="email" id="emailInput" class="email-input" placeholder="你的 Email" required>
                 <button class="btn btn-primary" onclick="submitEmail()">取得結果</button>
             </div>
-            <button class="btn btn-secondary" onclick="skipEmail()" style="padding: 12px 28px; font-size: 14px;">跳過，直接看結果</button>
         </div>
     </div>
 
@@ -938,11 +937,6 @@ function submitEmail() {
     }
     showResultScreen();
 }
-
-function skipEmail() {
-    showResultScreen();
-}
-
 function showResultScreen() {
     const resultType = window.pendingResult;
     const r = results[resultType];

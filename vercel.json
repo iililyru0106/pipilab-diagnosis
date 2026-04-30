@@ -1,5 +1,0 @@
-{
-  "env": {
-    "BREVO_API_KEY": "@brevo_api_key"
-  }
-}

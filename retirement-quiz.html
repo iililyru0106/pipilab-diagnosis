@@ -947,22 +947,20 @@ function submitEmail() {
         resultType: resultType
     };
     
-    fetch('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', {
-        method: 'POST',
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            showResultScreen();
-        } else {
-            showToast('儲存失敗，請重試');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showResultScreen();
-    });
+    // Use sendBeacon for non-blocking request
+    if (navigator.sendBeacon) {
+        navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', JSON.stringify(data));
+    } else {
+        // Fallback: use fetch with no-cors
+        fetch('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            mode: 'no-cors'
+        }).catch(err => console.log('Background save:', err));
+    }
+    
+    // Show result immediately
+    showResultScreen();
 }
 function showResultScreen() {
     const resultType = window.pendingResult;

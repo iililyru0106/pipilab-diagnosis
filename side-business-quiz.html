@@ -450,6 +450,58 @@
             text-decoration: none;
         }
 
+                .email-screen {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .email-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .email-subtitle {
+            font-size: 15px;
+            color: var(--text-soft);
+            line-height: 1.9;
+            margin-bottom: 24px;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .email-input {
+            padding: 14px 18px;
+            border: 2px solid var(--border-soft);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-main);
+            background: var(--bg-card);
+            transition: all 0.2s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--border-active);
+            background: var(--bg-main);
+        }
+
+        .email-input::placeholder {
+            color: var(--text-mute);
+        }
+
         @media (max-width: 380px) {
             .container {
                 padding: 40px 18px 40px;
@@ -505,6 +557,21 @@
         </div>
     </div>
 
+    <!-- Email 登記 -->
+    <div class="screen" id="screenEmail">
+        <div class="email-screen">
+            <h2 class="email-title">獲取你的診斷結果</h2>
+            <p class="email-subtitle">
+                輸入你的 Email，我們會把診斷結果和免費資源寄給你
+            </p>
+            <div class="email-form">
+                <input type="email" id="emailInput" class="email-input" placeholder="你的 Email" required>
+                <button class="btn btn-primary" onclick="submitEmail()">取得結果</button>
+            </div>
+            <button class="btn btn-secondary" onclick="skipEmail()" style="padding: 12px 28px; font-size: 14px;">跳過，直接看結果</button>
+        </div>
+    </div>
+
     <!-- 結果 -->
     <div class="screen" id="screenResult">
         <div class="result">
@@ -545,6 +612,23 @@
                 </button>
                 <button class="retry-btn" onclick="retryQuiz()">重新診斷</button>
                 <button class="back-btn" onclick="backToHome()">返回首頁</button>
+            </div>
+
+
+            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-soft);">
+                <div style="font-size: 13px; color: var(--text-mute); letter-spacing: 1px; margin-bottom: 16px; text-transform: uppercase;">想往下走</div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <a href="#" style="padding: 14px; background: var(--bg-card); color: var(--text-soft); border: none; border-radius: 14px; font-family: inherit; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="goToResource(event)">
+                        <span>🎁</span>
+                        <span>領取免費資源</span>
+                        <span style="margin-left: auto;">→</span>
+                    </a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQzYjPFauwctzF3TTLI2uqwbm5AYTyXVvD74pfiJ_cVYrvjA/viewform" target="_blank" style="padding: 14px; background: var(--bg-card); color: var(--text-soft); border: none; border-radius: 14px; font-family: inherit; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>💬</span>
+                        <span>預約一對一諮詢</span>
+                        <span style="margin-left: auto;">→</span>
+                    </a>
+                </div>
             </div>
 
             <div class="footer-mini">
@@ -740,10 +824,10 @@ function showResult() {
     document.getElementById('resultQuote').innerHTML = r.quote;
 
     document.getElementById('screenQuestion').classList.remove('active');
-    document.getElementById('screenResult').classList.add('active');
+    document.getElementById('screenEmail').classList.add('active');
     document.getElementById('progressBar').classList.remove('show');
-
-    window.currentResultType = resultType;
+    
+    window.pendingResult = resultType;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -791,6 +875,44 @@ function retryQuiz() {
 function backToHome() {
     window.location.href = 'index.html';
 }
+
+function submitEmail() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+        showToast('請輸入有效的 Email');
+        return;
+    }
+    showResultScreen();
+}
+
+function skipEmail() {
+    showResultScreen();
+}
+
+function showResultScreen() {
+    const resultType = window.pendingResult;
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultTrait').textContent = r.trait;
+    document.getElementById('resultStruggle').textContent = r.struggle;
+    document.getElementById('resultPath').innerHTML = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    document.getElementById('screenEmail').classList.remove('active');
+    document.getElementById('screenResult').classList.add('active');
+    
+    window.currentResultType = resultType;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToResource(e) {
+    e.preventDefault();
+    showToast('免費資源連結即將推出，敬請期待！');
+}
+
 </script>
 
 </body>

@@ -885,7 +885,7 @@ function backToHome() {
     window.location.href = 'index.html';
 }
 
-async function submitEmail() {
+function submitEmail() {
     // Prevent multiple submissions
     if (window.isSubmitting) return;
     window.isSubmitting = true;
@@ -909,23 +909,19 @@ async function submitEmail() {
     const resultType = window.pendingResult;
     const r = results[resultType];
     
-    // Submit to Google Sheets
-    try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            body: new URLSearchParams({
-                email: email,
-                quizType: 'financial',
-                result: r.name
-            })
-        });
-    } catch (error) {
-        console.log('Google Sheets submission:', error);
-    }
-    
-    // Show result immediately
+    // Show result immediately (don't wait for Google Sheets)
     showResultScreen();
+    
+    // Submit to Google Sheets in background (fire and forget)
+    fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams({
+            email: email,
+            quizType: 'financial',
+            result: r.name
+        })
+    }).catch(error => console.log('Google Sheets submission:', error));
 }
 
 function showResultScreen() {

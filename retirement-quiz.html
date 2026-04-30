@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退休規劃診斷 - 皮皮的生活設計診斷室</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #FDF6EE;
+            --bg-card: #F7EBD9;
+            --bg-card-hover: #F2E0C8;
+            --bg-selected: #E8D4B8;
+            --text-main: #2D1F0F;
+            --text-soft: #5F4631;
+            --text-mute: #8B7355;
+            --accent: #C4A882;
+            --accent-deep: #8B5A2B;
+            --border-soft: rgba(139, 90, 43, 0.15);
+            --border-active: rgba(139, 90, 43, 0.5);
+            --shadow-soft: rgba(139, 90, 43, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 50px 24px 60px;
+            min-height: 100vh;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--border-soft);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 36px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .progress-bar.show {
+            opacity: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-deep);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === 開場頁 === */
+        .intro {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .intro-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+            padding: 6px 16px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .intro-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 30px;
+            font-weight: 500;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .intro-subtitle {
+            font-size: 15px;
+            color: var(--text-soft);
+            line-height: 1.9;
+            margin-bottom: 8px;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-meta {
+            font-size: 13px;
+            color: var(--text-mute);
+            margin: 16px 0 32px;
+            letter-spacing: 1px;
+        }
+
+        .intro-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 14px;
+            color: var(--text-soft);
+            font-style: italic;
+            padding: 22px 24px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 36px;
+            line-height: 1.9;
+        }
+
+        /* === 按鈕 === */
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-deep);
+            color: var(--bg-main);
+            box-shadow: 0 4px 14px var(--shadow-soft);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.18);
+        }
+
+        .btn-primary:disabled {
+            background: var(--accent);
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-soft);
+            border: 1px solid var(--border-soft);
+            padding: 12px 28px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+        }
+
+        /* === 題目頁 === */
+        .question-num {
+            font-size: 12px;
+            color: var(--text-mute);
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 32px;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .option {
+            padding: 18px 22px;
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.6;
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(2px);
+        }
+
+        .option.selected {
+            background: var(--bg-selected);
+            border-color: var(--border-active);
+        }
+
+        .option-letter {
+            display: inline-flex;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            color: var(--accent-deep);
+            font-size: 13px;
+            font-weight: 500;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .option.selected .option-letter {
+            background: var(--accent-deep);
+            color: var(--bg-main);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* === 結果頁 === */
+        .result {
+            padding: 20px 0;
+        }
+
+        .result-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            padding: 6px 16px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .result-icon {
+            font-size: 56px;
+            margin: 12px 0 20px;
+            text-align: center;
+        }
+
+        .result-name {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 32px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .result-tagline {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 15px;
+            color: var(--text-soft);
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .result-section {
+            margin-bottom: 32px;
+        }
+
+        .result-section-title {
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .result-section-content {
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.9;
+        }
+
+        .result-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 16px;
+            color: var(--text-soft);
+            font-style: italic;
+            padding: 24px 26px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin: 32px 0;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 36px;
+            align-items: stretch;
+        }
+
+        .share-btn {
+            padding: 16px;
+            background: var(--accent-deep);
+            color: var(--bg-main);
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.18);
+        }
+
+        .retry-btn {
+            padding: 14px;
+            background: transparent;
+            color: var(--text-mute);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .retry-btn:hover {
+            background: var(--bg-card);
+            color: var(--text-soft);
+        }
+
+        .back-btn {
+            padding: 14px 28px;
+            background: transparent;
+            color: var(--text-soft);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-card);
+        }
+
+        /* === Toast === */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-main);
+            color: var(--bg-main);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* === footer === */
+        .footer-mini {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-soft);
+            font-size: 12px;
+            color: var(--text-mute);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-mini a {
+            color: var(--accent-deep);
+            text-decoration: none;
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 40px 18px 40px;
+            }
+            .intro-title {
+                font-size: 26px;
+            }
+            .question-text {
+                font-size: 19px;
+            }
+            .result-name {
+                font-size: 26px;
+            }
+            .option {
+                padding: 16px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- 開場 -->
+    <div class="screen active" id="screenIntro">
+        <div class="intro">
+            <div class="intro-tag">皮皮.YANG</div>
+            <h1 class="intro-title">你的微退休<br>可行性評估</h1>
+            <div class="intro-subtitle">
+                10 個問題，看清你的退休準備進度。<br>
+                給想在 35 歲前微退休的你。
+            </div>
+            <div class="intro-meta">10 題　·　約 3 分鐘</div>
+            <div class="intro-quote">
+                「不是要你更厲害，<br>是讓你慢慢走向自由。」
+            </div>
+            <button class="btn btn-primary" onclick="startQuiz()">開始診斷</button>
+        </div>
+    </div>
+
+    <!-- 題目 -->
+    <div class="screen" id="screenQuestion">
+        <div class="question-num" id="questionNum">第 1 題 · 共 10 題</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="nav">
+            <button class="btn btn-secondary" id="btnPrev" onclick="prevQuestion()" style="visibility: hidden;">上一題</button>
+            <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" disabled>下一題</button>
+        </div>
+    </div>
+
+    <!-- 結果 -->
+    <div class="screen" id="screenResult">
+        <div class="result">
+            <div style="text-align: center;">
+                <div class="result-tag">你的退休準備評估</div>
+            </div>
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-name" id="resultName"></div>
+            <div class="result-tagline" id="resultTagline"></div>
+
+            <div class="result-section">
+                <div class="result-section-title">你的現況</div>
+                <div class="result-section-content" id="resultStatus"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-section-title">你需要做的</div>
+                <div class="result-section-content" id="resultAction"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-section-title">你的微退休路徑</div>
+                <div class="result-section-content" id="resultPath"></div>
+            </div>
+
+            <div class="result-quote" id="resultQuote"></div>
+
+            <div class="result-actions">
+                <button class="share-btn" onclick="shareResult()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    分享給朋友也診斷看看
+                </button>
+                <button class="retry-btn" onclick="retryQuiz()">重新診斷</button>
+                <button class="back-btn" onclick="backToHome()">返回首頁</button>
+            </div>
+
+            <div class="footer-mini">
+                診斷來自 <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a> · 皮皮.Yang
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== 題目資料 ==========
+const questions = [
+    {
+        q: "你想在幾歲退休？",
+        options: [
+            { text: "30 歲", score: 5 },
+            { text: "35 歲", score: 4 },
+            { text: "40 歲", score: 3 },
+            { text: "45 歲", score: 2 },
+            { text: "50 歲", score: 1 }
+        ]
+    },
+    {
+        q: "你的退休預算是多少？（每月生活費）",
+        options: [
+            { text: "月 3 萬", score: 5 },
+            { text: "月 5 萬", score: 4 },
+            { text: "月 8 萬", score: 2 },
+            { text: "月 10 萬", score: 1 },
+            { text: "不確定", score: 0 }
+        ]
+    },
+    {
+        q: "你想要什麼樣的退休生活？",
+        options: [
+            { text: "簡樸", score: 5 },
+            { text: "舒適", score: 3 },
+            { text: "奢華", score: 1 },
+            { text: "還沒想過", score: 0 },
+            { text: "邊工作邊休閒", score: 2 }
+        ]
+    },
+    {
+        q: "你目前的存款狀況？",
+        options: [
+            { text: "已存到 100 萬以上", score: 5 },
+            { text: "已存到 50-100 萬", score: 4 },
+            { text: "已存到 20-50 萬", score: 3 },
+            { text: "已存到 10-20 萬", score: 2 },
+            { text: "存款不足 10 萬", score: 1 }
+        ]
+    },
+    {
+        q: "你通常能堅持做一件事多久？",
+        options: [
+            { text: "1 週", score: 1 },
+            { text: "1 個月", score: 2 },
+            { text: "3 個月", score: 3 },
+            { text: "6 個月以上", score: 4 },
+            { text: "1 年以上", score: 5 }
+        ]
+    },
+    {
+        q: "當工作很忙時，你會怎樣？",
+        options: [
+            { text: "放棄開始副業的念頭", score: 1 },
+            { text: "等工作不忙再開始", score: 2 },
+            { text: "利用碎片時間開始", score: 3 },
+            { text: "想辦法擠出時間", score: 4 },
+            { text: "已經在做副業了", score: 5 }
+        ]
+    },
+    {
+        q: "你最大的時間殺手是什麼？",
+        options: [
+            { text: "社群媒體", score: 1 },
+            { text: "工作加班", score: 2 },
+            { text: "家務事", score: 2 },
+            { text: "沒有特別的", score: 4 },
+            { text: "已經管理得很好", score: 5 }
+        ]
+    },
+    {
+        q: "面對未來的不確定感，你的習慣是？",
+        options: [
+            { text: "希望有人能告訴我答案", score: 1 },
+            { text: "暫時放著，等到時機自己出現", score: 2 },
+            { text: "找朋友聊一聊，多聽別人怎麼想", score: 3 },
+            { text: "持續往前走，不確定就邊走邊看", score: 4 },
+            { text: "把能掌握的部分做到最好", score: 5 }
+        ]
+    },
+    {
+        q: "你對「微退休」的想法比較接近哪一個？",
+        options: [
+            { text: "聽起來很棒，但好像離我很遠", score: 1 },
+            { text: "想要，但不知道怎麼開始", score: 2 },
+            { text: "有想法但沒開始行動", score: 3 },
+            { text: "已經開始準備了", score: 4 },
+            { text: "已經有具體的計畫", score: 5 }
+        ]
+    },
+    {
+        q: "對你來說，微退休最吸引人的是什麼？",
+        options: [
+            { text: "可以喘口氣，不用一直焦慮", score: 1 },
+            { text: "可以去看看世界、認識自己", score: 2 },
+            { text: "可以做自己喜歡的事", score: 3 },
+            { text: "可以擺脫被工作填滿的生活", score: 4 },
+            { text: "有時間做自己長期想做的事", score: 5 }
+        ]
+    }
+];
+
+// ========== 結果資料 ==========
+const results = {
+    high: {
+        icon: "🚀",
+        name: "準備充足型",
+        tagline: "你已經走在對的路上。",
+        status: "你已經有明確的目標、存款計畫，並且在執行中。你的微退休夢想不是夢想，是可以預見的未來。",
+        action: "現在的重點是「加速」。檢視你的副業進度、投資報酬率，看看有沒有可以優化的地方。",
+        path: "你適合的路徑：持續執行現有計畫，每季檢視一次進度。如果進度超前，可以考慮提前退休的時間。",
+        quote: "你的計畫已經很清楚了。<br>現在就是按下執行的那個鍵。"
+    },
+    medium: {
+        icon: "🌿",
+        name: "準備中期型",
+        tagline: "你有方向，但還需要加速。",
+        status: "你對微退休有想法，也有一些準備，但還沒有完整的計畫。你知道要往哪走，但步伐還不夠快。",
+        action: "現在需要把想法變成具體行動。設定一個 3 年的目標，拆解成每年要做的事。",
+        path: "你適合的路徑：先梳理現有的資源（存款、時間、技能），再決定要從哪裡開始加速。可以考慮副業或投資來加快進度。",
+        quote: "你知道方向，但需要加快腳步。<br>從今天開始，做一件具體的事。"
+    },
+    low: {
+        icon: "🌙",
+        name: "準備初期型",
+        tagline: "你還在累積能量。",
+        status: "微退休對你來說還是一個遠遠的夢想。可能是因為工作太忙、可能是還沒找到方向、可能是焦慮大於行動。",
+        action: "不要想太大的事。先從「今天可以做的 5 分鐘」開始——讀一篇相關的文章、跟一個人聊聊、寫下一個想法。",
+        path: "你適合的路徑：先建立「微退休」的概念，再逐步累積。可以從記錄支出、設定小目標開始。每個月進步一點點，一年後你會看到很大的改變。",
+        quote: "你不需要從大事開始。<br>你需要的，只是先動一下。"
+    }
+};
+
+// ========== 狀態 ==========
+let currentQuestion = 0;
+let answers = [];
+
+// ========== 函數 ==========
+function startQuiz() {
+    document.getElementById('screenIntro').classList.remove('active');
+    document.getElementById('screenQuestion').classList.add('active');
+    document.getElementById('progressBar').classList.add('show');
+    currentQuestion = 0;
+    answers = [];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('questionNum').textContent = `第 ${currentQuestion + 1} 題 · 共 ${questions.length} 題`;
+    document.getElementById('questionText').textContent = q.q;
+
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    q.options.forEach((opt, idx) => {
+        const div = document.createElement('button');
+        div.className = 'option';
+        if (answers[currentQuestion] === idx) div.classList.add('selected');
+        div.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt.text}</span>`;
+        div.onclick = () => selectOption(idx, div);
+        optionsDiv.appendChild(div);
+    });
+
+    // 進度條
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    // 上一題按鈕
+    document.getElementById('btnPrev').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+
+    // 下一題按鈕
+    const btnNext = document.getElementById('btnNext');
+    btnNext.disabled = answers[currentQuestion] === undefined;
+    btnNext.textContent = currentQuestion === questions.length - 1 ? '看結果' : '下一題';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOption(idx, el) {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[currentQuestion] = idx;
+    document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+    if (answers[currentQuestion] === undefined) return;
+
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function showResult() {
+    // 計算總分
+    let totalScore = 0;
+    answers.forEach(answerIdx => {
+        totalScore += questions[currentQuestion - answers.length + 1 + answers.indexOf(answerIdx)].options[answerIdx].score;
+    });
+
+    // 重新計算（正確版本）
+    totalScore = 0;
+    for (let i = 0; i < answers.length; i++) {
+        totalScore += questions[i].options[answers[i]].score;
+    }
+
+    let resultType;
+    if (totalScore >= 35) {
+        resultType = 'high';
+    } else if (totalScore >= 20) {
+        resultType = 'medium';
+    } else {
+        resultType = 'low';
+    }
+
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultStatus').textContent = r.status;
+    document.getElementById('resultAction').textContent = r.action;
+    document.getElementById('resultPath').textContent = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    document.getElementById('screenQuestion').classList.remove('active');
+    document.getElementById('screenResult').classList.add('active');
+    document.getElementById('progressBar').classList.remove('show');
+
+    window.currentResultType = resultType;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shareResult() {
+    const r = results[window.currentResultType];
+    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的微退休準備進度 ↓`;
+    const url = window.location.href;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '退休規劃診斷',
+            text: text,
+            url: url
+        }).catch(() => copyToClipboard(text + '\n' + url));
+    } else {
+        copyToClipboard(text + '\n' + url);
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製分享文案，貼到 IG 限動就可以了！');
+    }).catch(() => {
+        showToast('請手動複製這個網址分享');
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function retryQuiz() {
+    document.getElementById('screenResult').classList.remove('active');
+    document.getElementById('screenIntro').classList.add('active');
+    currentQuestion = 0;
+    answers = [];
+    document.getElementById('progressFill').style.width = '0%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToHome() {
+    window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>

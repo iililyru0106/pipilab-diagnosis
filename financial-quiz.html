@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財經診斷 - 皮皮的生活設計診斷室</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #FDF6EE;
+            --bg-card: #F7EBD9;
+            --bg-card-hover: #F2E0C8;
+            --bg-selected: #E8D4B8;
+            --text-main: #2D1F0F;
+            --text-soft: #5F4631;
+            --text-mute: #8B7355;
+            --accent: #C4A882;
+            --accent-deep: #8B5A2B;
+            --border-soft: rgba(139, 90, 43, 0.15);
+            --border-active: rgba(139, 90, 43, 0.5);
+            --shadow-soft: rgba(139, 90, 43, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 50px 24px 60px;
+            min-height: 100vh;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--border-soft);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 36px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .progress-bar.show {
+            opacity: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-deep);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .intro-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+            padding: 6px 16px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .intro-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 30px;
+            font-weight: 500;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .intro-subtitle {
+            font-size: 15px;
+            color: var(--text-soft);
+            line-height: 1.9;
+            margin-bottom: 8px;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-meta {
+            font-size: 13px;
+            color: var(--text-mute);
+            margin: 16px 0 32px;
+            letter-spacing: 1px;
+        }
+
+        .intro-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 14px;
+            color: var(--text-soft);
+            font-style: italic;
+            padding: 22px 24px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 36px;
+            line-height: 1.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-deep);
+            color: var(--bg-main);
+            box-shadow: 0 4px 14px var(--shadow-soft);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.18);
+        }
+
+        .btn-primary:disabled {
+            background: var(--accent);
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-soft);
+            border: 1px solid var(--border-soft);
+            padding: 12px 28px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+        }
+
+        .question-num {
+            font-size: 12px;
+            color: var(--text-mute);
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 32px;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .option {
+            padding: 18px 22px;
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.6;
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(2px);
+        }
+
+        .option.selected {
+            background: var(--bg-selected);
+            border-color: var(--border-active);
+        }
+
+        .option-letter {
+            display: inline-flex;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            color: var(--accent-deep);
+            font-size: 13px;
+            font-weight: 500;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .option.selected .option-letter {
+            background: var(--accent-deep);
+            color: var(--bg-main);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result {
+            padding: 20px 0;
+        }
+
+        .result-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            padding: 6px 16px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .result-icon {
+            font-size: 56px;
+            margin: 12px 0 20px;
+            text-align: center;
+        }
+
+        .result-name {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 32px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .result-tagline {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 15px;
+            color: var(--text-soft);
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .result-section {
+            margin-bottom: 32px;
+        }
+
+        .result-section-title {
+            font-size: 12px;
+            color: var(--accent-deep);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .result-section-content {
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.9;
+        }
+
+        .result-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 16px;
+            color: var(--text-soft);
+            font-style: italic;
+            padding: 24px 26px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin: 32px 0;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 36px;
+            align-items: stretch;
+        }
+
+        .share-btn {
+            padding: 16px;
+            background: var(--accent-deep);
+            color: var(--bg-main);
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.18);
+        }
+
+        .retry-btn {
+            padding: 14px;
+            background: transparent;
+            color: var(--text-mute);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .retry-btn:hover {
+            background: var(--bg-card);
+            color: var(--text-soft);
+        }
+
+        .back-btn {
+            padding: 14px 28px;
+            background: transparent;
+            color: var(--text-soft);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-card);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-main);
+            color: var(--bg-main);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .footer-mini {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-soft);
+            font-size: 12px;
+            color: var(--text-mute);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-mini a {
+            color: var(--accent-deep);
+            text-decoration: none;
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 40px 18px 40px;
+            }
+            .intro-title {
+                font-size: 26px;
+            }
+            .question-text {
+                font-size: 19px;
+            }
+            .result-name {
+                font-size: 26px;
+            }
+            .option {
+                padding: 16px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- 開場 -->
+    <div class="screen active" id="screenIntro">
+        <div class="intro">
+            <div class="intro-tag">皮皮.YANG</div>
+            <h1 class="intro-title">你的財經<br>風險承受度評估</h1>
+            <div class="intro-subtitle">
+                12 個問題，找出適合你的投資策略。<br>
+                給想穩健成長資產的你。
+            </div>
+            <div class="intro-meta">12 題　·　約 4 分鐘</div>
+            <div class="intro-quote">
+                「不是要你更厲害，<br>是讓你慢慢走向自由。」
+            </div>
+            <button class="btn btn-primary" onclick="startQuiz()">開始診斷</button>
+        </div>
+    </div>
+
+    <!-- 題目 -->
+    <div class="screen" id="screenQuestion">
+        <div class="question-num" id="questionNum">第 1 題 · 共 12 題</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="nav">
+            <button class="btn btn-secondary" id="btnPrev" onclick="prevQuestion()" style="visibility: hidden;">上一題</button>
+            <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" disabled>下一題</button>
+        </div>
+    </div>
+
+    <!-- 結果 -->
+    <div class="screen" id="screenResult">
+        <div class="result">
+            <div style="text-align: center;">
+                <div class="result-tag">你的財經風險類型</div>
+            </div>
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-name" id="resultName"></div>
+            <div class="result-tagline" id="resultTagline"></div>
+
+            <div class="result-section">
+                <div class="result-section-title">你的特質</div>
+                <div class="result-section-content" id="resultTrait"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-section-title">建議投資策略</div>
+                <div class="result-section-content" id="resultStrategy"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-section-title">要注意的地方</div>
+                <div class="result-section-content" id="resultWarning"></div>
+            </div>
+
+            <div class="result-quote" id="resultQuote"></div>
+
+            <div class="result-actions">
+                <button class="share-btn" onclick="shareResult()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    分享給朋友也診斷看看
+                </button>
+                <button class="retry-btn" onclick="retryQuiz()">重新診斷</button>
+                <button class="back-btn" onclick="backToHome()">返回首頁</button>
+            </div>
+
+            <div class="footer-mini">
+                診斷來自 <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a> · 皮皮.Yang
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const questions = [
+    {
+        q: "你的月收入大約是多少？",
+        options: [
+            { text: "3 萬以下", type: "conservative" },
+            { text: "3-5 萬", type: "conservative" },
+            { text: "5-8 萬", type: "balanced" },
+            { text: "8 萬以上", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你目前的存款有多少？",
+        options: [
+            { text: "不足 10 萬", type: "conservative" },
+            { text: "10-50 萬", type: "conservative" },
+            { text: "50-100 萬", type: "balanced" },
+            { text: "100 萬以上", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你的投資經驗？",
+        options: [
+            { text: "完全沒有", type: "conservative" },
+            { text: "有聽過但沒做過", type: "conservative" },
+            { text: "做過但不太懂", type: "balanced" },
+            { text: "有一定的經驗", type: "aggressive" }
+        ]
+    },
+    {
+        q: "如果投資虧損 20%，你會？",
+        options: [
+            { text: "立刻賣掉，不想再虧", type: "conservative" },
+            { text: "很焦慮，想賣但還在考慮", type: "balanced" },
+            { text: "相信會反彈，繼續持有", type: "aggressive" },
+            { text: "趁機加碼", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你對風險的態度？",
+        options: [
+            { text: "寧可少賺，也不要虧", type: "conservative" },
+            { text: "可以接受小幅波動", type: "balanced" },
+            { text: "願意承受較大波動換取報酬", type: "aggressive" },
+            { text: "追求最高報酬", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你的投資時間框架？",
+        options: [
+            { text: "1 年以內", type: "conservative" },
+            { text: "1-3 年", type: "balanced" },
+            { text: "3-5 年", type: "balanced" },
+            { text: "5 年以上", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你對「被動收入」的想法？",
+        options: [
+            { text: "想要但不知道怎麼開始", type: "conservative" },
+            { text: "有在考慮，但還在研究", type: "balanced" },
+            { text: "已經開始投資", type: "aggressive" },
+            { text: "已經有穩定的被動收入", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你最擔心的投資風險是？",
+        options: [
+            { text: "本金虧損", type: "conservative" },
+            { text: "短期波動", type: "balanced" },
+            { text: "沒有跟上市場", type: "aggressive" },
+            { text: "沒有追求最高報酬", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你的財務目標優先順序？",
+        options: [
+            { text: "先存錢，再考慮投資", type: "conservative" },
+            { text: "邊存邊投，平衡成長", type: "balanced" },
+            { text: "積極投資，加快成長", type: "aggressive" },
+            { text: "全力投資，追求最大報酬", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你對股票市場的認識？",
+        options: [
+            { text: "很陌生，不太懂", type: "conservative" },
+            { text: "有基本認識", type: "balanced" },
+            { text: "相當了解", type: "aggressive" },
+            { text: "非常了解，經常研究", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你願意投入多少時間研究投資？",
+        options: [
+            { text: "沒有時間，希望有人幫我管理", type: "conservative" },
+            { text: "每月花 1-2 小時", type: "balanced" },
+            { text: "每週花幾小時", type: "aggressive" },
+            { text: "經常研究和調整", type: "aggressive" }
+        ]
+    },
+    {
+        q: "你的家庭責任和負債？",
+        options: [
+            { text: "有負債，責任重", type: "conservative" },
+            { text: "有一些負債", type: "balanced" },
+            { text: "負債少，責任輕", type: "aggressive" },
+            { text: "沒有負債，責任輕", type: "aggressive" }
+        ]
+    }
+];
+
+const results = {
+    conservative: {
+        icon: "🛡",
+        name: "保守型投資人",
+        tagline: "穩健第一，安心最重要。",
+        trait: "你重視本金安全，不喜歡大幅波動。你的投資目標是「穩定成長」而不是「快速致富」。這個心態很健康，因為投資最重要的就是不虧錢。",
+        strategy: "建議配置：定期定額基金（60%）+ 債券（30%）+ 現金（10%）。選擇風險低、波動小的投資工具。可以考慮銀行定存、債券基金、或低波動股票基金。",
+        warning: "要注意通膨風險。如果完全不投資，你的錢會被通膨蠶食。建議至少投入一些低風險的投資，讓資產能跟上物價上升。",
+        quote: "安全很重要，<br>但也要防止被通膨吃掉。"
+    },
+    balanced: {
+        icon: "⚖️",
+        name: "平衡型投資人",
+        tagline: "成長和安全都要兼顧。",
+        trait: "你能接受適度的波動，追求穩健成長。你既不過度保守，也不過度冒進。這是最多人適合的投資風格，因為它能在風險和報酬之間找到平衡。",
+        strategy: "建議配置：股票基金（50%）+ 債券基金（30%）+ 現金（20%）。可以考慮 ETF、平衡型基金、或自己組合的投資組合。定期檢視和調整。",
+        warning: "不要被短期波動嚇到。股市會有上下，但長期趨勢通常是向上的。設定好投資計畫後，要有耐心堅持。",
+        quote: "波動是正常的，<br>長期才能看到成果。"
+    },
+    aggressive: {
+        icon: "🚀",
+        name: "積極型投資人",
+        tagline: "追求成長，願意承受波動。",
+        trait: "你願意承受較大的波動來換取更高的報酬。你對投資有一定的了解，也有時間研究。這種風格適合長期投資者，因為時間能平復短期波動。",
+        strategy: "建議配置：股票（70-80%）+ 債券（10-20%）+ 現金（5-10%）。可以考慮成長型基金、科技股、或新興市場。但要注意分散風險，不要把所有錢投在一個地方。",
+        warning: "高報酬伴隨高風險。不要被短期漲幅沖昏頭，也要做好虧損的心理準備。設定好停損點，不要讓虧損無限擴大。",
+        quote: "高報酬需要耐心，<br>也需要紀律。"
+    }
+};
+
+let currentQuestion = 0;
+let answers = [];
+
+function startQuiz() {
+    document.getElementById('screenIntro').classList.remove('active');
+    document.getElementById('screenQuestion').classList.add('active');
+    document.getElementById('progressBar').classList.add('show');
+    currentQuestion = 0;
+    answers = [];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('questionNum').textContent = `第 ${currentQuestion + 1} 題 · 共 ${questions.length} 題`;
+    document.getElementById('questionText').textContent = q.q;
+
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+
+    q.options.forEach((opt, idx) => {
+        const div = document.createElement('button');
+        div.className = 'option';
+        if (answers[currentQuestion] === idx) div.classList.add('selected');
+        div.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt.text}</span>`;
+        div.onclick = () => selectOption(idx, div);
+        optionsDiv.appendChild(div);
+    });
+
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    document.getElementById('btnPrev').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+
+    const btnNext = document.getElementById('btnNext');
+    btnNext.disabled = answers[currentQuestion] === undefined;
+    btnNext.textContent = currentQuestion === questions.length - 1 ? '看結果' : '下一題';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOption(idx, el) {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[currentQuestion] = idx;
+    document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+    if (answers[currentQuestion] === undefined) return;
+
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function showResult() {
+    const count = { conservative: 0, balanced: 0, aggressive: 0 };
+    
+    for (let i = 0; i < answers.length; i++) {
+        const type = questions[i].options[answers[i]].type;
+        count[type]++;
+    }
+
+    let resultType = 'balanced';
+    if (count.conservative > count.balanced && count.conservative > count.aggressive) {
+        resultType = 'conservative';
+    } else if (count.aggressive > count.balanced && count.aggressive > count.conservative) {
+        resultType = 'aggressive';
+    }
+
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultTrait').textContent = r.trait;
+    document.getElementById('resultStrategy').textContent = r.strategy;
+    document.getElementById('resultWarning').textContent = r.warning;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    document.getElementById('screenQuestion').classList.remove('active');
+    document.getElementById('screenResult').classList.add('active');
+    document.getElementById('progressBar').classList.remove('show');
+
+    window.currentResultType = resultType;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shareResult() {
+    const r = results[window.currentResultType];
+    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的投資風格 ↓`;
+    const url = window.location.href;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '財經診斷',
+            text: text,
+            url: url
+        }).catch(() => copyToClipboard(text + '\n' + url));
+    } else {
+        copyToClipboard(text + '\n' + url);
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製分享文案，貼到 IG 限動就可以了！');
+    }).catch(() => {
+        showToast('請手動複製這個網址分享');
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function retryQuiz() {
+    document.getElementById('screenResult').classList.remove('active');
+    document.getElementById('screenIntro').classList.add('active');
+    currentQuestion = 0;
+    answers = [];
+    document.getElementById('progressFill').style.width = '0%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToHome() {
+    window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>

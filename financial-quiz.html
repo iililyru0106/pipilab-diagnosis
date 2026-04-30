@@ -892,27 +892,9 @@ function submitEmail() {
         return;
     }
     
-    // Send email to Google Sheet
-    const quizType = document.querySelector('.quiz-title').textContent;
-    const resultType = window.pendingResult;
-    
-    const data = {
-        email: email,
-        quizType: quizType,
-        resultType: resultType
-    };
-    
-    // Use sendBeacon for non-blocking request
-    if (navigator.sendBeacon) {
-        navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', JSON.stringify(data));
-    } else {
-        // Fallback: use fetch with no-cors
-        fetch('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            mode: 'no-cors'
-        }).catch(err => console.log('Background save:', err));
-    }
+    // Store email in localStorage
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userEmailTime', new Date().toISOString());
     
     // Show result immediately
     showResultScreen();

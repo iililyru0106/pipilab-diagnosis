@@ -530,15 +530,19 @@ body {
 }
 
 .form-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex;
+    flex-wrap: nowrap;
     gap: var(--spacing-md);
     margin-top: var(--spacing-sm);
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
 }
 
 .form-option {
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    min-width: fit-content;
 }
 
 .form-option input[type="radio"],
@@ -764,7 +768,7 @@ body {
     }
 
     .form-options {
-        grid-template-columns: 1fr;
+        flex-wrap: wrap;
     }
 
     .email-input-group {

@@ -845,3 +845,23 @@ body {
         width: 100%;
     }
 }
+
+/* Newsletter button styling */
+.newsletter-btn {
+    background-color: var(--accent-deep);
+    color: var(--bg-main);
+    font-weight: 500;
+    border: none;
+    box-shadow: 0 2px 8px rgba(107, 107, 107, 0.15);
+    transition: all 0.3s ease;
+}
+
+.newsletter-btn:hover {
+    background-color: #5a5a5a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 107, 107, 0.25);
+}
+
+.newsletter-btn:active {
+    transform: translateY(0);
+}

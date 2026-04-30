@@ -923,6 +923,16 @@ function goToResource(e) {
     showToast('免費資源連結即將推出，敬請期待！');
 }
 
+
+function subscribeNewsletter() {
+    // Replace with your Brevo form URL
+    const brevoFormUrl = 'https://423fb37f.sibforms.com/serve/MUIFAJIKZKzJxidgl50Dx2_rIKXgY5GGPJScYUo74hsx2pJSd9--5LhxbkRZ5drRxVqi_SQE2jcbuQt_61495E0DsGaKdFJddN58XbtFYL75IqXoHhVJqhAqfWFZrf7NfLfNfMrVyTKuTFaVAR7KI0wBUWrbMAaHWfBnuDG-ulIqK64GIMC5te-oZsd2yQawRgvkqv2CrGy4-RRREw==';
+    if (brevoFormUrl === 'BREVO_FORM_URL_HERE') {
+        showToast('電子報訂閱連結待設定');
+        return;
+    }
+    window.open(brevoFormUrl, '_blank');
+}
 </script>
 
 </body>

@@ -231,6 +231,12 @@ body {
     color: var(--dark-apricot);
 }
 
+.about-content .highlight {
+    color: var(--dark-apricot);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
 /* ============================================
    DIAGNOSIS SECTION
    ============================================ */

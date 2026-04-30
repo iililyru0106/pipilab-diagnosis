@@ -877,11 +877,20 @@ function backToHome() {
 }
 
 async function submitEmail() {
+    // Prevent multiple submissions
+    if (window.isSubmitting) return;
+    window.isSubmitting = true;
+    
     const email = document.getElementById('emailInput').value;
     if (!email || !email.includes('@')) {
         showToast('請輸入有效的 Email');
+        window.isSubmitting = false;
         return;
     }
+    
+    // Disable button
+    const submitBtn = document.querySelector('.email-form button');
+    submitBtn.disabled = true;
     
     // Store email in localStorage
     localStorage.setItem('userEmail', email);

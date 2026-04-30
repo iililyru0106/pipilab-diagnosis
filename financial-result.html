@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的財經診斷結果 - 皮皮的生活設計診斷室</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">皮皮的生活設計診斷室</div>
+            <ul class="nav-links">
+                <li><a href="index.html">返回首頁</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="result-container">
+        <div class="result-header">
+            <h1>你的財經診斷結果</h1>
+            <div class="result-type" id="financialType">
+                💰 穩健型投資者
+            </div>
+        </div>
+
+        <div class="result-content">
+            <!-- Financial Profile -->
+            <div class="result-section">
+                <h2>你的財經類型</h2>
+                <p id="financialDescription">
+                    根據你的回答，你屬於 <strong>穩健型投資者</strong>。
+                </p>
+                <p id="financialCharacteristics">
+                    你有中等的風險承受度和穩定的儲蓄能力。建議採用平衡型投資組合，既能保護本金，又能獲得合理的增長。
+                </p>
+            </div>
+
+            <!-- Current Financial Status -->
+            <div class="result-section">
+                <h2>你的財務現況</h2>
+                <div style="background-color: #FFF; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <p><strong>月收入：</strong> <span id="monthlyIncomeDisplay">0</span> 元</p>
+                    <p><strong>月儲蓄：</strong> <span id="monthlySavingsDisplay">0</span> 元</p>
+                    <p><strong>儲蓄率：</strong> <span id="savingsRateDisplay">0</span>%</p>
+                    <p><strong>目前存款：</strong> <span id="currentSavingsDisplay">0</span> 萬</p>
+                </div>
+            </div>
+
+            <!-- Investment Recommendations -->
+            <div class="result-section">
+                <h2>投資建議</h2>
+                <ul class="result-list">
+                    <li><strong>推薦投資工具：</strong> <span id="recommendedTools">股票基金、ETF、債券基金</span></li>
+                    <li><strong>資產配置建議：</strong> <span id="assetAllocation">股票 60% / 債券 30% / 現金 10%</span></li>
+                    <li><strong>預期年報酬：</strong> <span id="expectedReturn">4-6%</span></li>
+                    <li><strong>風險等級：</strong> <span id="riskLevel">中等</span></li>
+                </ul>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="result-section">
+                <h2>行動計畫</h2>
+                <div style="background-color: #FFF; padding: 1rem; border-radius: 8px;">
+                    <p><strong>立即行動（本週）：</strong></p>
+                    <ul class="result-list">
+                        <li>建立緊急基金（3-6 個月生活費）</li>
+                        <li>開設證券帳戶或基金帳戶</li>
+                        <li>學習基礎投資知識</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>短期計畫（1-3 個月）：</strong></p>
+                    <ul class="result-list">
+                        <li>開始定期投資（每月固定金額）</li>
+                        <li>建立投資組合</li>
+                        <li>設定投資目標</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>中期計畫（3-12 個月）：</strong></p>
+                    <ul class="result-list">
+                        <li>每季檢視投資績效</li>
+                        <li>根據市場調整配置</li>
+                        <li>增加投資金額</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Financial Freedom Path -->
+            <div class="result-section">
+                <h2>邁向財務自由的路線圖</h2>
+                <div style="background-color: #FFF; padding: 1rem; border-radius: 8px;">
+                    <p><strong>第 1 階段（1-2 年）：</strong> 建立基礎</p>
+                    <p style="color: #666; margin-bottom: 1rem;">存夠 6 個月緊急基金，開始投資</p>
+                    
+                    <p><strong>第 2 階段（2-5 年）：</strong> 加速累積</p>
+                    <p style="color: #666; margin-bottom: 1rem;">資產翻倍，被動收入達到月 5000-10000</p>
+                    
+                    <p><strong>第 3 階段（5-10 年）：</strong> 達成目標</p>
+                    <p style="color: #666;">資產達到目標，被動收入足以支撐生活</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advisor Recommendation -->
+        <div style="background-color: #FFF9F5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #D4A574;">
+            <h3 style="color: #D4A574; margin-bottom: 0.5rem;">💡 專業顧問建議</h3>
+            <p style="color: #666; margin-bottom: 1rem;">根據你的財務狀況，建議你與專業的財務顧問進行一對一諮詢，制定更詳細的投資計畫。</p>
+            <a href="mailto:pipiyang.co@gmail.com?subject=我想預約財務諮詢" class="btn btn-primary" style="display: inline-block;">預約男友的財務顧問服務</a>
+        </div>
+
+        <!-- Email Collection -->
+        <div class="email-collection">
+            <h3>獲得詳細的投資建議</h3>
+            <p>輸入你的 Email，我會寄給你詳細的投資建議和資源清單。</p>
+            <div class="email-input-group">
+                <input type="email" id="emailInput" placeholder="你的 Email 地址" required>
+                <button class="btn btn-primary" onclick="submitEmail()">發送建議</button>
+            </div>
+            <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">我們不會分享或出售你的資料。</p>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps">
+            <h3>下一步行動</h3>
+            <p>根據你的診斷結果，我們推薦以下選項：</p>
+            <div class="action-buttons">
+                <a href="https://instagram.com/pipilab.co" target="_blank" class="action-btn action-btn-primary">
+                    追蹤我的 IG
+                </a>
+                <a href="mailto:pipiyang.co@gmail.com" class="action-btn action-btn-secondary">
+                    聯絡我
+                </a>
+            </div>
+        </div>
+
+        <!-- Back to Diagnosis -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <p style="color: #999; margin-bottom: 1rem;">想重新診斷或試試其他診斷工具？</p>
+            <a href="index.html#diagnosis" class="btn btn-secondary">返回診斷工具</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>皮皮的生活設計診斷室</h4>
+                    <p>幫助 25-35 歲忙碌職場女性看清現況，慢慢走向自由。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速連結</h4>
+                    <ul>
+                        <li><a href="index.html#about">關於我</a></li>
+                        <li><a href="index.html#diagnosis">診斷工具</a></li>
+                        <li><a href="index.html#faq">常見問題</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>聯絡方式</h4>
+                    <p>Instagram: <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a></p>
+                    <p>Email: <a href="mailto:pipiyang.co@gmail.com">pipiyang.co@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 皮皮的生活設計診斷室. 版權所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load and display financial result
+        window.addEventListener('DOMContentLoaded', () => {
+            const result = JSON.parse(sessionStorage.getItem('financialResult'));
+            
+            if (result) {
+                displayFinancialResult(result);
+            }
+        });
+
+        function displayFinancialResult(result) {
+            // Map financial type to display name
+            const typeMap = {
+                'conservative': { name: '保守型投資者', emoji: '🛡️' },
+                'balanced': { name: '穩健型投資者', emoji: '⚖️' },
+                'aggressive': { name: '積極型投資者', emoji: '🚀' },
+                'confused': { name: '迷茫型投資者', emoji: '❓' }
+            };
+
+            const typeInfo = typeMap[result.financialType] || typeMap['confused'];
+            
+            // Update financial type
+            document.getElementById('financialType').textContent = typeInfo.emoji + ' ' + typeInfo.name;
+
+            // Update descriptions
+            const descriptions = {
+                'conservative': {
+                    description: '根據你的回答，你屬於 <strong>保守型投資者</strong>。',
+                    characteristics: '你的風險承受度較低，傾向保護本金。建議從銀行定存、債券基金開始，逐步建立投資信心。'
+                },
+                'balanced': {
+                    description: '根據你的回答，你屬於 <strong>穩健型投資者</strong>。',
+                    characteristics: '你有中等的風險承受度和穩定的儲蓄能力。建議採用平衡型投資組合，既能保護本金，又能獲得合理的增長。'
+                },
+                'aggressive': {
+                    description: '根據你的回答，你屬於 <strong>積極型投資者</strong>。',
+                    characteristics: '你有較高的風險承受度和強大的儲蓄能力。建議採用成長型投資組合，包括個股和成長型基金。'
+                },
+                'confused': {
+                    description: '根據你的回答，你屬於 <strong>迷茫型投資者</strong>。',
+                    characteristics: '你對投資還不夠了解。建議先學習基礎投資知識，再與專業顧問討論適合的投資策略。'
+                }
+            };
+
+            const desc = descriptions[result.financialType] || descriptions['confused'];
+            document.getElementById('financialDescription').innerHTML = desc.description;
+            document.getElementById('financialCharacteristics').textContent = desc.characteristics;
+
+            // Update financial status
+            document.getElementById('monthlyIncomeDisplay').textContent = result.monthlyIncome.toLocaleString();
+            document.getElementById('monthlySavingsDisplay').textContent = result.monthlySavings.toLocaleString();
+            
+            const savingsRate = Math.round((result.monthlySavings / result.monthlyIncome) * 100);
+            document.getElementById('savingsRateDisplay').textContent = savingsRate;
+            document.getElementById('currentSavingsDisplay').textContent = (result.currentSavings / 10000).toFixed(1);
+
+            // Update recommendations based on type
+            const recommendations = {
+                'conservative': {
+                    tools: '銀行定存、債券基金、貨幣基金',
+                    allocation: '債券 70% / 現金 30%',
+                    return: '1-2%',
+                    level: '低風險'
+                },
+                'balanced': {
+                    tools: '股票基金、ETF、債券基金',
+                    allocation: '股票 60% / 債券 30% / 現金 10%',
+                    return: '4-6%',
+                    level: '中等風險'
+                },
+                'aggressive': {
+                    tools: '個股、成長型基金、新興市場基金',
+                    allocation: '股票 80% / 債券 10% / 現金 10%',
+                    return: '7-10%',
+                    level: '高風險'
+                },
+                'confused': {
+                    tools: '先學習基礎知識，再決定投資工具',
+                    allocation: '建議先存現金，學習後再投資',
+                    return: '0-2%',
+                    level: '不確定'
+                }
+            };
+
+            const rec = recommendations[result.financialType] || recommendations['confused'];
+            document.getElementById('recommendedTools').textContent = rec.tools;
+            document.getElementById('assetAllocation').textContent = rec.allocation;
+            document.getElementById('expectedReturn').textContent = rec.return;
+            document.getElementById('riskLevel').textContent = rec.level;
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('emailInput').value;
+            if (email) {
+                alert('感謝你的信任！我們已經收到你的 Email，會盡快寄送詳細的投資建議給你。');
+                document.getElementById('emailInput').value = '';
+            } else {
+                alert('請輸入你的 Email 地址');
+            }
+        }
+    </script>
+</body>
+</html>

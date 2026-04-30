@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財經診斷 - 皮皮的生活設計診斷室</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">皮皮的生活設計診斷室</div>
+            <ul class="nav-links">
+                <li><a href="index.html">返回首頁</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="result-container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>💰 財經診斷</h1>
+                <p>評估你的存錢能力和投資風險承受度</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+
+            <form id="financialForm">
+                <!-- Question 1 -->
+                <div class="form-group" id="question1">
+                    <label>1. 你目前的月收入？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q1_3_5w" name="monthlyIncome" value="40000">
+                            <label for="q1_3_5w">3-5 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q1_5_8w" name="monthlyIncome" value="65000">
+                            <label for="q1_5_8w">5-8 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q1_8_12w" name="monthlyIncome" value="100000">
+                            <label for="q1_8_12w">8-12 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q1_12w_plus" name="monthlyIncome" value="120000">
+                            <label for="q1_12w_plus">12 萬以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="form-group" id="question2">
+                    <label>2. 你每月能存多少？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q2_0_5k" name="monthlySavings" value="2500">
+                            <label for="q2_0_5k">0-5000</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_5_10k" name="monthlySavings" value="7500">
+                            <label for="q2_5_10k">5000-10000</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_10_20k" name="monthlySavings" value="15000">
+                            <label for="q2_10_20k">10000-20000</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_20k_plus" name="monthlySavings" value="20000">
+                            <label for="q2_20k_plus">20000 以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="form-group" id="question3">
+                    <label>3. 你目前的存款？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q3_0_10w" name="currentSavings" value="50000">
+                            <label for="q3_0_10w">0-10 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q3_10_50w" name="currentSavings" value="300000">
+                            <label for="q3_10_50w">10-50 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q3_50_100w" name="currentSavings" value="750000">
+                            <label for="q3_50_100w">50-100 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q3_100w_plus" name="currentSavings" value="1000000">
+                            <label for="q3_100w_plus">100 萬以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="form-group" id="question4">
+                    <label>4. 你有投資經驗嗎？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q4_no" name="investmentExperience" value="none">
+                            <label for="q4_no">完全沒有</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_heard" name="investmentExperience" value="heard">
+                            <label for="q4_heard">聽過但沒做</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_doing" name="investmentExperience" value="doing">
+                            <label for="q4_doing">有在做</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_experienced" name="investmentExperience" value="experienced">
+                            <label for="q4_experienced">有一定經驗</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="form-group" id="question5">
+                    <label>5. 如果投資虧損 20%，你會怎樣？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q5_sell" name="lossReaction" value="sell">
+                            <label for="q5_sell">馬上賣出</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_watch" name="lossReaction" value="watch">
+                            <label for="q5_watch">觀望</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_hold" name="lossReaction" value="hold">
+                            <label for="q5_hold">繼續持有</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_buy" name="lossReaction" value="buy">
+                            <label for="q5_buy">加碼買進</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="form-group" id="question6">
+                    <label>6. 你能接受的最大虧損是多少？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q6_0" name="maxLoss" value="0">
+                            <label for="q6_0">0%（存銀行）</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_10" name="maxLoss" value="10">
+                            <label for="q6_10">10%</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_20" name="maxLoss" value="20">
+                            <label for="q6_20">20%</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_30" name="maxLoss" value="30">
+                            <label for="q6_30">30% 以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="form-group" id="question7">
+                    <label>7. 你的投資時間框架？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q7_1y" name="investmentTimeframe" value="1">
+                            <label for="q7_1y">1 年內</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_3_5y" name="investmentTimeframe" value="4">
+                            <label for="q7_3_5y">3-5 年</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_5_10y" name="investmentTimeframe" value="7">
+                            <label for="q7_5_10y">5-10 年</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_10y_plus" name="investmentTimeframe" value="10">
+                            <label for="q7_10y_plus">10 年以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="form-group" id="question8">
+                    <label>8. 你對投資的了解程度？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q8_no" name="investmentKnowledge" value="none">
+                            <label for="q8_no">完全不懂</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_basic" name="investmentKnowledge" value="basic">
+                            <label for="q8_basic">有基本概念</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_some" name="investmentKnowledge" value="some">
+                            <label for="q8_some">有一定知識</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_expert" name="investmentKnowledge" value="expert">
+                            <label for="q8_expert">很了解</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="form-group" id="question9">
+                    <label>9. 你的投資目標是什麼？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q9_preserve" name="investmentGoal" value="preserve">
+                            <label for="q9_preserve">保本</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_stable" name="investmentGoal" value="stable">
+                            <label for="q9_stable">穩定增長</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_growth" name="investmentGoal" value="growth">
+                            <label for="q9_growth">積極增長</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_unsure" name="investmentGoal" value="unsure">
+                            <label for="q9_unsure">不確定</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="form-group" id="question10">
+                    <label>10. 你想在幾年內達到財務自由？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q10_3y" name="financialFreedomTimeframe" value="3">
+                            <label for="q10_3y">3 年</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_5y" name="financialFreedomTimeframe" value="5">
+                            <label for="q10_5y">5 年</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_10y" name="financialFreedomTimeframe" value="10">
+                            <label for="q10_10y">10 年</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_15y" name="financialFreedomTimeframe" value="15">
+                            <label for="q10_15y">15 年以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="form-group" id="question11">
+                    <label>11. 你認為財務自由需要多少被動收入？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q11_30k" name="passiveIncomeTarget" value="30000">
+                            <label for="q11_30k">月 3 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_50k" name="passiveIncomeTarget" value="50000">
+                            <label for="q11_50k">月 5 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_100k" name="passiveIncomeTarget" value="100000">
+                            <label for="q11_100k">月 10 萬</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_unsure" name="passiveIncomeTarget" value="0">
+                            <label for="q11_unsure">不確定</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="form-group" id="question12">
+                    <label>12. 你願意改變消費習慣嗎？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q12_no" name="consumptionChange" value="no">
+                            <label for="q12_no">不願意</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q12_little" name="consumptionChange" value="little">
+                            <label for="q12_little">少量改變</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q12_willing" name="consumptionChange" value="willing">
+                            <label for="q12_willing">願意改變</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q12_major" name="consumptionChange" value="major">
+                            <label for="q12_major">大幅改變</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Navigation -->
+                <div class="form-navigation">
+                    <a href="index.html" class="btn btn-secondary">返回首頁</a>
+                    <button type="submit" class="btn btn-primary">查看結果</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>皮皮的生活設計診斷室</h4>
+                    <p>幫助 25-35 歲忙碌職場女性看清現況，慢慢走向自由。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速連結</h4>
+                    <ul>
+                        <li><a href="index.html#about">關於我</a></li>
+                        <li><a href="index.html#diagnosis">診斷工具</a></li>
+                        <li><a href="index.html#faq">常見問題</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>聯絡方式</h4>
+                    <p>Instagram: <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a></p>
+                    <p>Email: <a href="mailto:pipiyang.co@gmail.com">pipiyang.co@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 皮皮的生活設計診斷室. 版權所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Financial Diagnosis Logic
+        const form = document.getElementById('financialForm');
+        const progressFill = document.getElementById('progressFill');
+
+        // Update progress bar
+        form.addEventListener('change', () => {
+            const totalQuestions = 12;
+            const answeredQuestions = form.querySelectorAll('input[type="radio"]:checked').length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            progressFill.style.width = progress + '%';
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(form);
+            const data = {
+                monthlyIncome: parseInt(formData.get('monthlyIncome')),
+                monthlySavings: parseInt(formData.get('monthlySavings')),
+                currentSavings: parseInt(formData.get('currentSavings')),
+                investmentExperience: formData.get('investmentExperience'),
+                lossReaction: formData.get('lossReaction'),
+                maxLoss: parseInt(formData.get('maxLoss')),
+                investmentTimeframe: parseInt(formData.get('investmentTimeframe')),
+                investmentKnowledge: formData.get('investmentKnowledge'),
+                investmentGoal: formData.get('investmentGoal'),
+                financialFreedomTimeframe: parseInt(formData.get('financialFreedomTimeframe')),
+                passiveIncomeTarget: parseInt(formData.get('passiveIncomeTarget')),
+                consumptionChange: formData.get('consumptionChange')
+            };
+
+            // Calculate financial type
+            const result = calculateFinancialType(data);
+
+            // Store result and redirect
+            sessionStorage.setItem('financialResult', JSON.stringify(result));
+            window.location.href = 'financial-result.html';
+        });
+
+        function calculateFinancialType(data) {
+            let score = 0;
+            let savingsCapacity = 0;
+            let riskTolerance = 0;
+
+            // Calculate savings capacity score
+            if (data.monthlySavings >= 15000) savingsCapacity = 3;
+            else if (data.monthlySavings >= 7500) savingsCapacity = 2;
+            else if (data.monthlySavings >= 2500) savingsCapacity = 1;
+            else savingsCapacity = 0;
+
+            // Calculate risk tolerance score
+            if (data.maxLoss >= 30) riskTolerance = 3;
+            else if (data.maxLoss >= 20) riskTolerance = 2;
+            else if (data.maxLoss >= 10) riskTolerance = 1;
+            else riskTolerance = 0;
+
+            // Determine financial type
+            let financialType = 'confused';
+            
+            if (savingsCapacity >= 2 && riskTolerance >= 2) {
+                financialType = 'aggressive';
+            } else if (savingsCapacity >= 1 && riskTolerance >= 1) {
+                financialType = 'balanced';
+            } else if (savingsCapacity >= 1 || riskTolerance >= 1) {
+                financialType = 'conservative';
+            } else {
+                financialType = 'confused';
+            }
+
+            return {
+                financialType: financialType,
+                savingsCapacity: savingsCapacity,
+                riskTolerance: riskTolerance,
+                monthlyIncome: data.monthlyIncome,
+                monthlySavings: data.monthlySavings,
+                currentSavings: data.currentSavings,
+                investmentExperience: data.investmentExperience,
+                consumptionChange: data.consumptionChange
+            };
+        }
+    </script>
+</body>
+</html>

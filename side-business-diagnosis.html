@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>副業診斷 - 皮皮的生活設計診斷室</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">皮皮的生活設計診斷室</div>
+            <ul class="nav-links">
+                <li><a href="index.html">返回首頁</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="result-container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>🎯 副業診斷</h1>
+                <p>測試你的時間管理能力，找出你的副業人格</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+
+            <form id="sideBusinessForm">
+                <!-- Question 1 -->
+                <div class="form-group" id="question1">
+                    <label>1. 你目前的工作時間？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q1_8h" name="workingHours" value="8">
+                            <label for="q1_8h">8 小時</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q1_10h" name="workingHours" value="10">
+                            <label for="q1_10h">10 小時</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q1_12h" name="workingHours" value="12">
+                            <label for="q1_12h">12 小時以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="form-group" id="question2">
+                    <label>2. 你每週有多少自由時間？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q2_5h" name="freeTime" value="5">
+                            <label for="q2_5h">5 小時</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_10h" name="freeTime" value="10">
+                            <label for="q2_10h">10 小時</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_15h" name="freeTime" value="15">
+                            <label for="q2_15h">15 小時</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q2_20h" name="freeTime" value="20">
+                            <label for="q2_20h">20 小時以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="form-group" id="question3">
+                    <label>3. 你目前的副業狀態？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q3_no" name="sideBusinessStatus" value="no">
+                            <label for="q3_no">沒有副業</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q3_idea" name="sideBusinessStatus" value="idea">
+                            <label for="q3_idea">有想法但沒開始</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q3_doing" name="sideBusinessStatus" value="doing">
+                            <label for="q3_doing">已經在做</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="form-group" id="question4">
+                    <label>4. 你通常能堅持做一件事多久？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q4_1w" name="persistence" value="1">
+                            <label for="q4_1w">1 週</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_1m" name="persistence" value="1">
+                            <label for="q4_1m">1 個月</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_3m" name="persistence" value="3">
+                            <label for="q4_3m">3 個月</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q4_6m" name="persistence" value="6">
+                            <label for="q4_6m">6 個月以上</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="form-group" id="question5">
+                    <label>5. 你如何管理時間？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q5_random" name="timeManagement" value="random">
+                            <label for="q5_random">隨性</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_plan_change" name="timeManagement" value="plan_change">
+                            <label for="q5_plan_change">有計畫但常改變</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_plan_stick" name="timeManagement" value="plan_stick">
+                            <label for="q5_plan_stick">有計畫且堅持</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q5_system" name="timeManagement" value="system">
+                            <label for="q5_system">系統化管理</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="form-group" id="question6">
+                    <label>6. 當工作很忙時，你會怎樣？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q6_quit" name="busyResponse" value="quit">
+                            <label for="q6_quit">放棄副業</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_reduce" name="busyResponse" value="reduce">
+                            <label for="q6_reduce">減少副業時間</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_stick" name="busyResponse" value="stick">
+                            <label for="q6_stick">堅持做</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q6_double" name="busyResponse" value="double">
+                            <label for="q6_double">加倍努力</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="form-group" id="question7">
+                    <label>7. 你最大的時間殺手是什麼？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q7_social" name="timeKiller" value="social">
+                            <label for="q7_social">社群媒體</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_work" name="timeKiller" value="work">
+                            <label for="q7_work">工作加班</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_chores" name="timeKiller" value="chores">
+                            <label for="q7_chores">家務</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q7_other" name="timeKiller" value="other">
+                            <label for="q7_other">其他</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="form-group" id="question8">
+                    <label>8. 你對副業的期待是什麼？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q8_quick" name="sideBusinessExpectation" value="quick">
+                            <label for="q8_quick">快速賺錢</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_long" name="sideBusinessExpectation" value="long">
+                            <label for="q8_long">長期累積</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_interest" name="sideBusinessExpectation" value="interest">
+                            <label for="q8_interest">興趣優先</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q8_unsure" name="sideBusinessExpectation" value="unsure">
+                            <label for="q8_unsure">不確定</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="form-group" id="question9">
+                    <label>9. 你想做副業的主要原因？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q9_income" name="sideBusinessReason" value="income">
+                            <label for="q9_income">增加收入</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_freedom" name="sideBusinessReason" value="freedom">
+                            <label for="q9_freedom">尋求自由</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_interest2" name="sideBusinessReason" value="interest">
+                            <label for="q9_interest2">興趣發展</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q9_career" name="sideBusinessReason" value="career">
+                            <label for="q9_career">準備轉職</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="form-group" id="question10">
+                    <label>10. 你的副業目標是什麼？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q10_5k" name="sideBusinessGoal" value="5000">
+                            <label for="q10_5k">月收 5000</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_10k" name="sideBusinessGoal" value="10000">
+                            <label for="q10_10k">月收 10000+</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_main" name="sideBusinessGoal" value="main">
+                            <label for="q10_main">成為主業</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q10_unsure2" name="sideBusinessGoal" value="unsure">
+                            <label for="q10_unsure2">不確定</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="form-group" id="question11">
+                    <label>11. 你願意投資在副業上嗎？</label>
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="radio" id="q11_no" name="sideBusinessInvestment" value="no">
+                            <label for="q11_no">不願意</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_little" name="sideBusinessInvestment" value="little">
+                            <label for="q11_little">少量投資</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_willing" name="sideBusinessInvestment" value="willing">
+                            <label for="q11_willing">願意投資</label>
+                        </div>
+                        <div class="form-option">
+                            <input type="radio" id="q11_big" name="sideBusinessInvestment" value="big">
+                            <label for="q11_big">大額投資</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Navigation -->
+                <div class="form-navigation">
+                    <a href="index.html" class="btn btn-secondary">返回首頁</a>
+                    <button type="submit" class="btn btn-primary">查看結果</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>皮皮的生活設計診斷室</h4>
+                    <p>幫助 25-35 歲忙碌職場女性看清現況，慢慢走向自由。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速連結</h4>
+                    <ul>
+                        <li><a href="index.html#about">關於我</a></li>
+                        <li><a href="index.html#diagnosis">診斷工具</a></li>
+                        <li><a href="index.html#faq">常見問題</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>聯絡方式</h4>
+                    <p>Instagram: <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a></p>
+                    <p>Email: <a href="mailto:pipiyang.co@gmail.com">pipiyang.co@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 皮皮的生活設計診斷室. 版權所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Side Business Diagnosis Logic
+        const form = document.getElementById('sideBusinessForm');
+        const progressFill = document.getElementById('progressFill');
+
+        // Update progress bar
+        form.addEventListener('change', () => {
+            const totalQuestions = 11;
+            const answeredQuestions = form.querySelectorAll('input[type="radio"]:checked').length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            progressFill.style.width = progress + '%';
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(form);
+            const data = {
+                workingHours: parseInt(formData.get('workingHours')),
+                freeTime: parseInt(formData.get('freeTime')),
+                sideBusinessStatus: formData.get('sideBusinessStatus'),
+                persistence: parseInt(formData.get('persistence')),
+                timeManagement: formData.get('timeManagement'),
+                busyResponse: formData.get('busyResponse'),
+                timeKiller: formData.get('timeKiller'),
+                sideBusinessExpectation: formData.get('sideBusinessExpectation'),
+                sideBusinessReason: formData.get('sideBusinessReason'),
+                sideBusinessGoal: formData.get('sideBusinessGoal'),
+                sideBusinessInvestment: formData.get('sideBusinessInvestment')
+            };
+
+            // Calculate side business personality
+            const result = calculateSideBusinessPersonality(data);
+
+            // Store result and redirect
+            sessionStorage.setItem('sideBusinessResult', JSON.stringify(result));
+            window.location.href = 'side-business-result.html';
+        });
+
+        function calculateSideBusinessPersonality(data) {
+            let timeScore = 0;
+            let executionScore = 0;
+
+            // Calculate time availability score
+            if (data.freeTime >= 15) timeScore = 3;
+            else if (data.freeTime >= 10) timeScore = 2;
+            else if (data.freeTime >= 5) timeScore = 1;
+            else timeScore = 0;
+
+            // Calculate execution score
+            const executionFactors = {
+                'persistence': data.persistence >= 3 ? 1 : 0,
+                'timeManagement': data.timeManagement === 'system' || data.timeManagement === 'plan_stick' ? 1 : 0,
+                'busyResponse': data.busyResponse === 'double' || data.busyResponse === 'stick' ? 1 : 0
+            };
+            executionScore = Object.values(executionFactors).reduce((a, b) => a + b, 0);
+
+            // Determine personality type
+            let personalityType = 'confused';
+            
+            if (data.sideBusinessStatus === 'doing') {
+                personalityType = 'doer';
+            } else if (timeScore >= 2 && executionScore >= 2) {
+                personalityType = 'planner';
+            } else if (timeScore < 2 && data.sideBusinessReason === 'freedom') {
+                personalityType = 'dreamer';
+            } else {
+                personalityType = 'confused';
+            }
+
+            return {
+                personalityType: personalityType,
+                timeScore: timeScore,
+                executionScore: executionScore,
+                freeTime: data.freeTime,
+                sideBusinessStatus: data.sideBusinessStatus,
+                sideBusinessGoal: data.sideBusinessGoal,
+                sideBusinessReason: data.sideBusinessReason
+            };
+        }
+    </script>
+</body>
+</html>

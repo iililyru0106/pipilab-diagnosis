@@ -530,8 +530,8 @@ body {
 }
 
 .form-options {
-    display: flex;
-    flex-wrap: nowrap;
+    display: flex !important;
+    flex-wrap: nowrap !important;
     gap: var(--spacing-md);
     margin-top: var(--spacing-sm);
     overflow-x: auto;
@@ -539,10 +539,11 @@ body {
 }
 
 .form-option {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    min-width: fit-content;
+    display: flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    min-width: fit-content !important;
+    flex-shrink: 0 !important;
 }
 
 .form-option input[type="radio"],

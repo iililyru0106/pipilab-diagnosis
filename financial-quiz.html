@@ -918,7 +918,7 @@ function submitEmail() {
         mode: 'no-cors',
         body: new URLSearchParams({
             email: email,
-            quizType: 'financial',
+            quizType: '財經診斷',
             result: r.name
         })
     }).catch(error => console.log('Google Sheets submission:', error));

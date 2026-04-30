@@ -963,7 +963,7 @@ function submitEmail() {
         mode: 'no-cors',
         body: new URLSearchParams({
             email: email,
-            quizType: 'retirement',
+            quizType: '退休規劃診斷',
             result: r.name
         })
     }).catch(error => console.log('Google Sheets submission:', error));

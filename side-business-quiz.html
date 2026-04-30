@@ -909,7 +909,7 @@ function submitEmail() {
         mode: 'no-cors',
         body: new URLSearchParams({
             email: email,
-            quizType: 'side-business',
+            quizType: '副業診斷',
             result: r.name
         })
     }).catch(error => console.log('Google Sheets submission:', error));

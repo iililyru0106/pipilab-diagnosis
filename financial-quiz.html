@@ -885,54 +885,22 @@ function backToHome() {
     window.location.href = 'index.html';
 }
 
-async function submitEmail() {
+function submitEmail() {
     const email = document.getElementById('emailInput').value;
     if (!email || !email.includes('@')) {
         showToast('請輸入有效的 Email');
         return;
     }
     
-    // Disable button during submission
-    const submitBtn = document.querySelector('.email-form button');
-    submitBtn.disabled = true;
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = '提交中...';
+    // Store email in localStorage
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userEmailTime', new Date().toISOString());
     
-    try {
-        // Send email to Brevo via Vercel API
-        const response = await fetch('/api/subscribe', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                quizType: 'financial',
-            }),
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            showToast('提交失敗，請稍後重試');
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-            return;
-        }
-        
-        // Store email in localStorage
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userEmailTime', new Date().toISOString());
-        
-        // Show result immediately
-        showResultScreen();
-    } catch (error) {
-        console.error('Error:', error);
-        showToast('提交失敗，請稍後重試');
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-    }
+    // Show result immediately
+    showResultScreen();
 }
+
+function showResultScreen
 function showResultScreen() {
     const resultType = window.pendingResult;
     const r = results[resultType];

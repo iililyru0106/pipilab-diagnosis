@@ -326,6 +326,15 @@
             line-height: 1.9;
         }
 
+        .result-section-content ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .result-section-content li {
+            margin-bottom: 8px;
+        }
+
         .result-quote {
             font-family: 'Noto Serif TC', serif;
             font-size: 16px;
@@ -474,10 +483,10 @@
             <div class="intro-tag">皮皮.YANG</div>
             <h1 class="intro-title">你的副業<br>人格測驗</h1>
             <div class="intro-subtitle">
-                11 個問題，找出你的副業人格。<br>
+                5 個問題，找出你的副業人格。<br>
                 給想靠副業改變生活的你。
             </div>
-            <div class="intro-meta">11 題　·　約 3 分鐘</div>
+            <div class="intro-meta">5 題　·　約 2 分鐘</div>
             <div class="intro-quote">
                 「不是要你更厲害，<br>是讓你慢慢走向自由。」
             </div>
@@ -487,7 +496,7 @@
 
     <!-- 題目 -->
     <div class="screen" id="screenQuestion">
-        <div class="question-num" id="questionNum">第 1 題 · 共 11 題</div>
+        <div class="question-num" id="questionNum">第 1 題 · 共 5 題</div>
         <div class="question-text" id="questionText"></div>
         <div class="options" id="options"></div>
         <div class="nav">
@@ -507,17 +516,17 @@
             <div class="result-tagline" id="resultTagline"></div>
 
             <div class="result-section">
-                <div class="result-section-title">你的特質</div>
+                <div class="result-section-title">特質</div>
                 <div class="result-section-content" id="resultTrait"></div>
             </div>
 
             <div class="result-section">
-                <div class="result-section-title">你會卡在哪裡</div>
+                <div class="result-section-title">會卡在哪</div>
                 <div class="result-section-content" id="resultStruggle"></div>
             </div>
 
             <div class="result-section">
-                <div class="result-section-title">你的副業路徑</div>
+                <div class="result-section-title">下一步</div>
                 <div class="result-section-content" id="resultPath"></div>
             </div>
 
@@ -550,141 +559,87 @@
 <script>
 const questions = [
     {
-        q: "你目前的工作時間？",
+        q: "下班後你最常做的是？",
         options: [
-            { text: "8 小時", type: "dreamer" },
-            { text: "10 小時", type: "planner" },
-            { text: "12 小時以上", type: "confused" },
-            { text: "有彈性時間", type: "doer" }
+            { text: "滑手機放空，想到副業就累", type: "D" },
+            { text: "有想法但常常停在「想」", type: "A" },
+            { text: "已經在做一些事，邊做邊調整", type: "B" },
+            { text: "探索很多不同方向，看哪個適合", type: "C" }
         ]
     },
     {
-        q: "你每週有多少自由時間？",
+        q: "對「副業」這件事，你的態度是？",
         options: [
-            { text: "5 小時以下", type: "confused" },
-            { text: "5-10 小時", type: "dreamer" },
-            { text: "10-20 小時", type: "planner" },
-            { text: "20 小時以上", type: "doer" }
+            { text: "想要有計畫再開始，不然容易半途而廢", type: "A" },
+            { text: "邊做邊修正，不用想太多", type: "B" },
+            { text: "想試很多種，找到最有興趣的", type: "C" },
+            { text: "有想做但時間不夠、動力不足", type: "D" }
         ]
     },
     {
-        q: "你對副業的想法？",
+        q: "當你想開始一件副業時，最常卡住的是？",
         options: [
-            { text: "有想法但沒開始", type: "dreamer" },
-            { text: "已經開始做", type: "doer" },
-            { text: "有完整計畫", type: "planner" },
-            { text: "不確定要做什麼", type: "confused" }
+            { text: "一直在收集資料、規劃，沒有真的動手", type: "A" },
+            { text: "做了很多但沒方向感，累積不起來", type: "B" },
+            { text: "想嘗試的太多，選不出第一個", type: "C" },
+            { text: "永遠在「等對的時機」", type: "D" }
         ]
     },
     {
-        q: "你通常能堅持做一件事多久？",
+        q: "你願意每週花多少時間在副業？",
         options: [
-            { text: "1 週", type: "confused" },
-            { text: "1 個月", type: "dreamer" },
-            { text: "3 個月", type: "planner" },
-            { text: "6 個月以上", type: "doer" }
+            { text: "5 小時以內（先排好時段）", type: "A" },
+            { text: "5-10 小時（碎片時間都用上）", type: "B" },
+            { text: "看心情，有興趣就多做", type: "C" },
+            { text: "不確定，看狀況", type: "D" }
         ]
     },
     {
-        q: "當工作很忙時，你會怎樣？",
+        q: "你做副業最主要的目的是？",
         options: [
-            { text: "放棄開始副業的念頭", type: "confused" },
-            { text: "等工作不忙再開始", type: "dreamer" },
-            { text: "利用碎片時間開始", type: "planner" },
-            { text: "想辦法擠出時間", type: "doer" }
-        ]
-    },
-    {
-        q: "你最大的時間殺手是什麼？",
-        options: [
-            { text: "社群媒體", type: "confused" },
-            { text: "工作加班", type: "dreamer" },
-            { text: "家務事", type: "planner" },
-            { text: "沒有特別的", type: "doer" }
-        ]
-    },
-    {
-        q: "面對未來的不確定感，你的習慣是？",
-        options: [
-            { text: "希望有人能告訴我答案", type: "confused" },
-            { text: "暫時放著，等到時機自己出現", type: "dreamer" },
-            { text: "把能掌握的部分做到最好", type: "planner" },
-            { text: "持續往前走，不確定就邊走邊看", type: "doer" }
-        ]
-    },
-    {
-        q: "看到別人比你更早達到目標，你會？",
-        options: [
-            { text: "覺得自己是不是太慢了", type: "confused" },
-            { text: "覺得有點焦慮，想嘗試他的方法", type: "dreamer" },
-            { text: "認真分析他做對了什麼", type: "planner" },
-            { text: "提醒自己步調不一樣，繼續做自己的", type: "doer" }
-        ]
-    },
-    {
-        q: "對你來說，副業最吸引人的是什麼？",
-        options: [
-            { text: "可以喘口氣，不用一直焦慮", type: "confused" },
-            { text: "可以去看看世界、認識自己", type: "dreamer" },
-            { text: "有時間做自己長期想做的事", type: "planner" },
-            { text: "可以擺脫被工作填滿的生活", type: "doer" }
-        ]
-    },
-    {
-        q: "你對副業的想法比較接近哪一個？",
-        options: [
-            { text: "等我準備好、有時間了再說", type: "confused" },
-            { text: "想試很多種，找到最喜歡的那個", type: "dreamer" },
-            { text: "要做就要有完整計畫，不然會半途而廢", type: "planner" },
-            { text: "想到就先做，做了才知道適不適合", type: "doer" }
-        ]
-    },
-    {
-        q: "你願意投入多少時間研究副業？",
-        options: [
-            { text: "沒有時間，希望有人幫我", type: "confused" },
-            { text: "每月花 1-2 小時", type: "dreamer" },
-            { text: "每週花幾小時", type: "planner" },
-            { text: "經常研究和調整", type: "doer" }
+            { text: "為了長期累積、達到財務目標", type: "A" },
+            { text: "為了找到工作之外的可能性", type: "B" },
+            { text: "為了找到真正喜歡做的事", type: "C" },
+            { text: "不確定，想要先有就好", type: "D" }
         ]
     }
 ];
 
 const results = {
-    dreamer: {
-        icon: "💭",
-        name: "夢想家型",
-        tagline: "你有想法但時間有限。",
-        trait: "你對副業充滿想像，但工作太忙讓你很難開始。你知道自己想要什麼，但總是在「等時間」。",
-        struggle: "你最容易卡在「等準備好再開始」這件事上。但事實是，完美的時機不會自己來。",
-        path: "建議從 5 分鐘副業開始，利用碎片時間逐步累積。不要等到有完整的時間塊，先建立習慣。",
-        quote: "你不需要等完美的時機。<br>你需要的，是先動一下。"
-    },
-    doer: {
-        icon: "🚀",
-        name: "行動者型",
-        tagline: "你已經走在對的路上。",
-        trait: "你已經開始做副業，並且有執行力。你不怕失敗，邊做邊調整。",
-        struggle: "你最容易卡在「累積但沒有複利」的循環裡。你做了很多事，但每件事都是獨立的。",
-        path: "現在的重點是系統化你的流程。檢視過去做過的事，找出哪些是「往目標方向」，砍掉分散注意力的。",
-        quote: "你已經很會走了。<br>現在需要的，是確認方向。"
-    },
-    planner: {
-        icon: "📋",
-        name: "規劃者型",
-        tagline: "你時間充足且計畫周密。",
-        trait: "你習慣把混亂變成清單，把焦慮變成行動。你的優勢是執行力穩、不容易半途而廢。",
-        struggle: "你最容易卡在「再多準備一點」的迴圈裡。準備永遠不會完美。",
-        path: "建議選擇適合的副業方向，開始系統化執行。你不需要更多計畫，你需要的是「完成」一個階段。",
+    A: {
+        icon: "🗂",
+        name: "規劃型副業人",
+        tagline: "你不靠運氣，你靠計畫。",
+        trait: "你習慣把混亂變成清單，把焦慮變成行動。對你來說「準備」本身就是一種安心——只要計畫做好了，焦慮就少了一半。你的優勢是執行力穩、不容易半途而廢，缺點是有時候會卡在「再多準備一點」的迴圈裡。",
+        struggle: "你最容易卡在「等準備好再開始」這件事上。但事實是，準備永遠不會完美。副業不是等到 100 分才出發，是 70 分就先做、邊做邊調整。",
+        path: "<ol><li>設定一個 3 個月的最小可行目標（例如：3 個月內完成第一個產出）</li><li>砍掉所有「準備中」但沒進度的項目</li><li>每週固定 2 個時段執行，不要等有空才做</li></ol>",
         quote: "你的計畫已經夠了。<br>該開始的，是按下執行的那個鍵。"
     },
-    confused: {
-        icon: "❓",
-        name: "迷茫者型",
-        tagline: "你還在累積能量。",
-        trait: "你有時間但不知道做什麼，或者工作太忙讓你沒有精力思考副業。焦慮大於行動。",
-        struggle: "你最容易卡在「等到對的時機」這件事。但對的時機不會自己來，會來的是更多焦慮。",
-        path: "先不要想太大的事。從「今天可以做的 5 分鐘」開始——讀一篇文章、跟一個人聊聊。等行動累積了，方向會自己浮現。",
+    B: {
+        icon: "🚀",
+        name: "行動型副業人",
+        tagline: "你不等完美，你先出發。",
+        trait: "你不喜歡空想，喜歡先做做看。對你來說「做了再說」比「想到完美」更重要。你的優勢是執行速度快、容易累積成果，缺點是有時候沒方向感，會走了一段才發現方向不對。",
+        struggle: "你最容易卡在「累積但沒有複利」的循環裡。你做了很多事，但每件事都是獨立的，沒有變成一個更大的東西。副業需要的不只是「做」，是「朝同一個方向做」。",
+        path: "<ol><li>盤點過去 3 個月做過的所有副業相關事項</li><li>找出哪些「會累積」、哪些「只是花時間」</li><li>砍掉後者，把資源集中在前者</li></ol>",
+        quote: "你已經很會走了。<br>現在需要的，是確認方向。"
+    },
+    C: {
+        icon: "🌿",
+        name: "探索型副業人",
+        tagline: "你不急著定型，你保持開放。",
+        trait: "你不喜歡被一個身分綁住，喜歡多看、多試、多認識自己。對你來說「找到對的路」比「快速到達」更重要。你的優勢是視野廣、能發現別人看不到的可能性，缺點是容易在「再多看一個」的狀態裡待太久。",
+        struggle: "你最容易卡在「想嘗試的事太多、決定不了哪個」的猶豫裡。副業準備不需要你選擇全部，需要你選擇「現在這一年」要專心走哪一條。其他可能性可以放著，但這一年要有重心。",
+        path: "<ol><li>列出你目前在考慮的所有方向</li><li>給自己一個「1 年實驗期」，挑最有感覺的那條全力試</li><li>1 年後不對勁再換</li></ol>",
+        quote: "你看得到的可能性很多。<br>但人生需要的，是先走完一條。"
+    },
+    D: {
+        icon: "🌙",
+        name: "醞釀型副業人",
+        tagline: "你不是慢，你是還沒出發。",
+        trait: "你目前對於副業、對於改變現況，是「想要、但還沒動」的狀態。可能是工作太忙、可能是生活太累、可能是還沒找到對的方法。你的優勢是不會盲目跟風，缺點是時間在過、機會也在過。",
+        struggle: "你最容易卡在「等到對的時機」這件事。但對的時機不會自己來，會來的是更多焦慮。你需要的不是更大的決定，是一個「今天就能做的小行動」。",
+        path: "<ol><li>不要想太大的事</li><li>從「今天可以做的 30 分鐘」開始：讀一篇相關的文章、寫下一個想法</li><li>等行動累積了，方向會自己浮現</li></ol>",
         quote: "你不需要從大事開始。<br>你需要的，只是先動一下。"
     }
 };
@@ -757,14 +712,14 @@ function prevQuestion() {
 }
 
 function showResult() {
-    const count = { dreamer: 0, doer: 0, planner: 0, confused: 0 };
+    const count = { A: 0, B: 0, C: 0, D: 0 };
     
     for (let i = 0; i < answers.length; i++) {
         const type = questions[i].options[answers[i]].type;
         count[type]++;
     }
 
-    let resultType = 'confused';
+    let resultType = 'D';
     let maxCount = -1;
     
     for (const type in count) {
@@ -781,7 +736,7 @@ function showResult() {
     document.getElementById('resultTagline').textContent = r.tagline;
     document.getElementById('resultTrait').textContent = r.trait;
     document.getElementById('resultStruggle').textContent = r.struggle;
-    document.getElementById('resultPath').textContent = r.path;
+    document.getElementById('resultPath').innerHTML = r.path;
     document.getElementById('resultQuote').innerHTML = r.quote;
 
     document.getElementById('screenQuestion').classList.remove('active');

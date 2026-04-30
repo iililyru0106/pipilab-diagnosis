@@ -326,6 +326,15 @@
             line-height: 1.9;
         }
 
+        .result-section-content ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .result-section-content li {
+            margin-bottom: 8px;
+        }
+
         .result-quote {
             font-family: 'Noto Serif TC', serif;
             font-size: 16px;
@@ -472,12 +481,12 @@
     <div class="screen active" id="screenIntro">
         <div class="intro">
             <div class="intro-tag">皮皮.YANG</div>
-            <h1 class="intro-title">你的財經<br>風險承受度評估</h1>
+            <h1 class="intro-title">你的財務<br>體質診斷</h1>
             <div class="intro-subtitle">
-                12 個問題，找出適合你的投資策略。<br>
+                6 個問題，找出你的財務類型。<br>
                 給想穩健成長資產的你。
             </div>
-            <div class="intro-meta">12 題　·　約 4 分鐘</div>
+            <div class="intro-meta">6 題　·　約 2 分鐘</div>
             <div class="intro-quote">
                 「不是要你更厲害，<br>是讓你慢慢走向自由。」
             </div>
@@ -487,7 +496,7 @@
 
     <!-- 題目 -->
     <div class="screen" id="screenQuestion">
-        <div class="question-num" id="questionNum">第 1 題 · 共 12 題</div>
+        <div class="question-num" id="questionNum">第 1 題 · 共 6 題</div>
         <div class="question-text" id="questionText"></div>
         <div class="options" id="options"></div>
         <div class="nav">
@@ -500,25 +509,25 @@
     <div class="screen" id="screenResult">
         <div class="result">
             <div style="text-align: center;">
-                <div class="result-tag">你的財經風險類型</div>
+                <div class="result-tag">你的財務體質</div>
             </div>
             <div class="result-icon" id="resultIcon"></div>
             <div class="result-name" id="resultName"></div>
             <div class="result-tagline" id="resultTagline"></div>
 
             <div class="result-section">
-                <div class="result-section-title">你的特質</div>
+                <div class="result-section-title">特質</div>
                 <div class="result-section-content" id="resultTrait"></div>
             </div>
 
             <div class="result-section">
-                <div class="result-section-title">建議投資策略</div>
-                <div class="result-section-content" id="resultStrategy"></div>
+                <div class="result-section-title">會卡在哪</div>
+                <div class="result-section-content" id="resultStruggle"></div>
             </div>
 
             <div class="result-section">
-                <div class="result-section-title">要注意的地方</div>
-                <div class="result-section-content" id="resultWarning"></div>
+                <div class="result-section-title">下一步</div>
+                <div class="result-section-content" id="resultPath"></div>
             </div>
 
             <div class="result-quote" id="resultQuote"></div>
@@ -550,142 +559,97 @@
 <script>
 const questions = [
     {
-        q: "你的月收入大約是多少？",
+        q: "你目前每個月的儲蓄狀況是？",
         options: [
-            { text: "3 萬以下", type: "conservative" },
-            { text: "3-5 萬", type: "conservative" },
-            { text: "5-8 萬", type: "balanced" },
-            { text: "8 萬以上", type: "aggressive" }
+            { text: "幾乎沒辦法存錢", type: "D" },
+            { text: "能存 5-10% 收入", type: "A" },
+            { text: "能存 10-25% 收入", type: "B" },
+            { text: "能存 25% 以上", type: "C" }
         ]
     },
     {
-        q: "你目前的存款有多少？",
+        q: "對於投資，你的態度比較像？",
         options: [
-            { text: "不足 10 萬", type: "conservative" },
-            { text: "10-50 萬", type: "conservative" },
-            { text: "50-100 萬", type: "balanced" },
-            { text: "100 萬以上", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你的投資經驗？",
-        options: [
-            { text: "完全沒有", type: "conservative" },
-            { text: "有聽過但沒做過", type: "conservative" },
-            { text: "做過但不太懂", type: "balanced" },
-            { text: "有一定的經驗", type: "aggressive" }
+            { text: "完全沒概念，不知道從哪開始", type: "D" },
+            { text: "只敢存定存，怕虧錢", type: "A" },
+            { text: "有買 ETF 或基金，求穩健", type: "B" },
+            { text: "有研究、敢接受波動", type: "C" }
         ]
     },
     {
         q: "如果投資虧損 20%，你會？",
         options: [
-            { text: "立刻賣掉，不想再虧", type: "conservative" },
-            { text: "很焦慮，想賣但還在考慮", type: "balanced" },
-            { text: "相信會反彈，繼續持有", type: "aggressive" },
-            { text: "趁機加碼", type: "aggressive" }
+            { text: "完全不會想投資，不接受任何虧損", type: "D" },
+            { text: "可能立刻賣掉，太緊張了", type: "A" },
+            { text: "有點難受，但會繼續持有", type: "B" },
+            { text: "看狀況，可能反而加碼", type: "C" }
         ]
     },
     {
-        q: "你對風險的態度？",
+        q: "你目前對自己的財務「了解」到什麼程度？",
         options: [
-            { text: "寧可少賺，也不要虧", type: "conservative" },
-            { text: "可以接受小幅波動", type: "balanced" },
-            { text: "願意承受較大波動換取報酬", type: "aggressive" },
-            { text: "追求最高報酬", type: "aggressive" }
+            { text: "不太清楚，每個月薪水進來就花掉", type: "D" },
+            { text: "知道大概，但沒有詳細追蹤", type: "A" },
+            { text: "有記帳，知道收支結構", type: "B" },
+            { text: "清楚收支、資產配置、目標", type: "C" }
         ]
     },
     {
-        q: "你的投資時間框架？",
+        q: "你有「緊急預備金」嗎？",
         options: [
-            { text: "1 年以內", type: "conservative" },
-            { text: "1-3 年", type: "balanced" },
-            { text: "3-5 年", type: "balanced" },
-            { text: "5 年以上", type: "aggressive" }
+            { text: "沒有概念，沒準備", type: "D" },
+            { text: "有一些，但不夠 3 個月生活費", type: "A" },
+            { text: "剛好 3-6 個月生活費", type: "B" },
+            { text: "6 個月以上，且有額外投資", type: "C" }
         ]
     },
     {
-        q: "你對「被動收入」的想法？",
+        q: "對「微退休」這件事，你最大的卡關是？",
         options: [
-            { text: "想要但不知道怎麼開始", type: "conservative" },
-            { text: "有在考慮，但還在研究", type: "balanced" },
-            { text: "已經開始投資", type: "aggressive" },
-            { text: "已經有穩定的被動收入", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你最擔心的投資風險是？",
-        options: [
-            { text: "本金虧損", type: "conservative" },
-            { text: "短期波動", type: "balanced" },
-            { text: "沒有跟上市場", type: "aggressive" },
-            { text: "沒有追求最高報酬", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你的財務目標優先順序？",
-        options: [
-            { text: "先存錢，再考慮投資", type: "conservative" },
-            { text: "邊存邊投，平衡成長", type: "balanced" },
-            { text: "積極投資，加快成長", type: "aggressive" },
-            { text: "全力投資，追求最大報酬", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你對股票市場的認識？",
-        options: [
-            { text: "很陌生，不太懂", type: "conservative" },
-            { text: "有基本認識", type: "balanced" },
-            { text: "相當了解", type: "aggressive" },
-            { text: "非常了解，經常研究", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你願意投入多少時間研究投資？",
-        options: [
-            { text: "沒有時間，希望有人幫我管理", type: "conservative" },
-            { text: "每月花 1-2 小時", type: "balanced" },
-            { text: "每週花幾小時", type: "aggressive" },
-            { text: "經常研究和調整", type: "aggressive" }
-        ]
-    },
-    {
-        q: "你的家庭責任和負債？",
-        options: [
-            { text: "有負債，責任重", type: "conservative" },
-            { text: "有一些負債", type: "balanced" },
-            { text: "負債少，責任輕", type: "aggressive" },
-            { text: "沒有負債，責任輕", type: "aggressive" }
+            { text: "不知道需要多少錢，根本沒概念", type: "D" },
+            { text: "知道要存錢但存不到目標", type: "A" },
+            { text: "存了一些但不確定夠不夠", type: "B" },
+            { text: "有明確數字，正在執行中", type: "C" }
         ]
     }
 ];
 
 const results = {
-    conservative: {
+    A: {
         icon: "🛡",
-        name: "保守型投資人",
-        tagline: "穩健第一，安心最重要。",
-        trait: "你重視本金安全，不喜歡大幅波動。你的投資目標是「穩定成長」而不是「快速致富」。這個心態很健康，因為投資最重要的就是不虧錢。",
-        strategy: "建議配置：定期定額基金（60%）+ 債券（30%）+ 現金（10%）。選擇風險低、波動小的投資工具。可以考慮銀行定存、債券基金、或低波動股票基金。",
-        warning: "要注意通膨風險。如果完全不投資，你的錢會被通膨蠶食。建議至少投入一些低風險的投資，讓資產能跟上物價上升。",
-        quote: "安全很重要，<br>但也要防止被通膨吃掉。"
+        name: "保守型",
+        tagline: "你想穩，但穩不一定等於安全。",
+        trait: "你重視安全感，不喜歡有風險的東西。對你來說「不虧錢」比「賺更多」更重要。你的優勢是不會做衝動決策、財務體質穩定，缺點是錢只放定存，會被通膨慢慢吃掉。",
+        struggle: "你最容易卡在「不敢開始投資」的恐懼裡。但對微退休準備來說，純儲蓄通常不夠。你需要的不是「冒險」，是「理解風險再選擇」——這是兩件不一樣的事。",
+        path: "<ol><li>把緊急預備金（6 個月生活費）放好</li><li>多餘的錢開始學習低風險工具（債券 ETF、月配息）</li><li>找專業的人聊一次，建立基礎觀念再決定</li></ol>",
+        quote: "安全不是不動。<br>是知道風險、然後選擇怎麼動。"
     },
-    balanced: {
+    B: {
         icon: "⚖️",
-        name: "平衡型投資人",
-        tagline: "成長和安全都要兼顧。",
-        trait: "你能接受適度的波動，追求穩健成長。你既不過度保守，也不過度冒進。這是最多人適合的投資風格，因為它能在風險和報酬之間找到平衡。",
-        strategy: "建議配置：股票基金（50%）+ 債券基金（30%）+ 現金（20%）。可以考慮 ETF、平衡型基金、或自己組合的投資組合。定期檢視和調整。",
-        warning: "不要被短期波動嚇到。股市會有上下，但長期趨勢通常是向上的。設定好投資計畫後，要有耐心堅持。",
-        quote: "波動是正常的，<br>長期才能看到成果。"
+        name: "穩健型",
+        tagline: "你已經在路上了。",
+        trait: "你財務體質健康，會儲蓄、會投資、有規劃。對你來說財務不是焦慮，是有節奏的累積。你的優勢是長期主義、能執行計畫，缺點是可能太「按部就班」，少了優化的可能性。",
+        struggle: "你最容易卡在「不知道下一步要不要更積極」這個猶豫。穩健是好事，但微退休準備有時間賽跑的成分——如果還有 10 年以上，可以考慮稍微提高風險、加速累積。",
+        path: "<ol><li>重新檢視資產配置比例（保守 vs 成長）</li><li>設定「微退休目標金額」，反推每月需要存多少</li><li>找專業的人做一次體檢，確認方向是否最佳</li></ol>",
+        quote: "你已經在走，<br>現在可以走得更聰明一點。"
     },
-    aggressive: {
+    C: {
         icon: "🚀",
-        name: "積極型投資人",
-        tagline: "追求成長，願意承受波動。",
-        trait: "你願意承受較大的波動來換取更高的報酬。你對投資有一定的了解，也有時間研究。這種風格適合長期投資者，因為時間能平復短期波動。",
-        strategy: "建議配置：股票（70-80%）+ 債券（10-20%）+ 現金（5-10%）。可以考慮成長型基金、科技股、或新興市場。但要注意分散風險，不要把所有錢投在一個地方。",
-        warning: "高報酬伴隨高風險。不要被短期漲幅沖昏頭，也要做好虧損的心理準備。設定好停損點，不要讓虧損無限擴大。",
-        quote: "高報酬需要耐心，<br>也需要紀律。"
+        name: "積極型",
+        tagline: "你跑得快，但要小心摔。",
+        trait: "你願意承擔風險、追求高報酬。對你來說「機會成本」比「虧損風險」更值得在意。你的優勢是行動快、累積速度高，缺點是可能在順風時太樂觀、逆風時受傷較重。",
+        struggle: "你最容易卡在「過度集中、缺乏緩衝」的問題上。積極是優勢，但微退休的本質是「可預測的自由」——不是賭一把賺到，是穩定累積、不被打回原點。",
+        path: "<ol><li>檢查你的緊急預備金是否充足（至少 6 個月生活費）</li><li>確認資產配置不要過度集中（單一股票 / 單一市場）</li><li>找專業的人協助設計「不會被一次黑天鵝打回原點」的配置</li></ol>",
+        quote: "你跑得快，<br>但跑得遠的人，都有後援。"
+    },
+    D: {
+        icon: "🌫",
+        name: "迷茫型",
+        tagline: "你不是不懂，你只是還沒開始懂。",
+        trait: "你目前對財務沒有具體概念，可能是因為一直忙、可能是因為覺得「以後再說」。這完全 OK——大部分上班族的起點都是這裡。你的優勢是還沒有壞習慣，缺點是時間正在流失。",
+        struggle: "你最容易卡在「不知道從哪開始」的無力感。財務不是天生的能力，是學來的。但你不需要一次學會所有東西，只需要從「今天可以做的一件事」開始。",
+        path: "<ol><li>先做最簡單的：記帳一個月，看清楚錢都去哪了</li><li>學一個基礎觀念：複利、緊急預備金、定期定額</li><li>找專業的人聊一次，把「不知道從哪開始」變成「知道第一步是什麼」</li></ol>",
+        quote: "你不需要立刻變專家。<br>你需要的，只是踏出第一步。"
     }
 };
 
@@ -757,18 +721,21 @@ function prevQuestion() {
 }
 
 function showResult() {
-    const count = { conservative: 0, balanced: 0, aggressive: 0 };
+    const count = { A: 0, B: 0, C: 0, D: 0 };
     
     for (let i = 0; i < answers.length; i++) {
         const type = questions[i].options[answers[i]].type;
         count[type]++;
     }
 
-    let resultType = 'balanced';
-    if (count.conservative > count.balanced && count.conservative > count.aggressive) {
-        resultType = 'conservative';
-    } else if (count.aggressive > count.balanced && count.aggressive > count.conservative) {
-        resultType = 'aggressive';
+    let resultType = 'D';
+    let maxCount = -1;
+    
+    for (const type in count) {
+        if (count[type] > maxCount) {
+            maxCount = count[type];
+            resultType = type;
+        }
     }
 
     const r = results[resultType];
@@ -777,8 +744,8 @@ function showResult() {
     document.getElementById('resultName').textContent = r.name;
     document.getElementById('resultTagline').textContent = r.tagline;
     document.getElementById('resultTrait').textContent = r.trait;
-    document.getElementById('resultStrategy').textContent = r.strategy;
-    document.getElementById('resultWarning').textContent = r.warning;
+    document.getElementById('resultStruggle').textContent = r.struggle;
+    document.getElementById('resultPath').innerHTML = r.path;
     document.getElementById('resultQuote').innerHTML = r.quote;
 
     document.getElementById('screenQuestion').classList.remove('active');
@@ -792,7 +759,7 @@ function showResult() {
 
 function shareResult() {
     const r = results[window.currentResultType];
-    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的投資風格 ↓`;
+    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的財務體質 ↓`;
     const url = window.location.href;
 
     if (navigator.share) {

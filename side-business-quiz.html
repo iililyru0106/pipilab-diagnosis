@@ -882,7 +882,33 @@ function submitEmail() {
         showToast('請輸入有效的 Email');
         return;
     }
-    showResultScreen();
+    
+    // Send email to Google Sheet
+    const quizType = document.querySelector('.quiz-title').textContent;
+    const resultType = window.pendingResult;
+    
+    const data = {
+        email: email,
+        quizType: quizType,
+        resultType: resultType
+    };
+    
+    fetch('https://script.google.com/macros/s/AKfycbzDUVkpTfiwdO7I_T-YMQXGP7s078MiS483pqhYNfaOhDAPZyMjN3w8CFKu2EklUq-n/exec', {
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showResultScreen();
+        } else {
+            showToast('儲存失敗，請重試');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showResultScreen();
+    });
 }
 function showResultScreen() {
     const resultType = window.pendingResult;

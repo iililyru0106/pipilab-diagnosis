@@ -448,47 +448,15 @@
             text-decoration: none;
         }
 
-                .email-screen {
-            text-align: center;
-            padding: 40px 0 20px;
-        }
+                
 
-        .email-title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 26px;
-            font-weight: 500;
-            margin-bottom: 16px;
-            letter-spacing: 1px;
-            line-height: 1.4;
-        }
+        
 
-        .email-subtitle {
-            font-size: 15px;
-            color: var(--text-soft);
-            line-height: 1.9;
-            margin-bottom: 24px;
-            max-width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        
 
-        .email-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
+        
 
-        .email-input {
-            padding: 14px 18px;
-            border: 2px solid var(--border-soft);
-            border-radius: 14px;
-            font-family: inherit;
-            font-size: 15px;
-            color: var(--text-main);
-            background: var(--bg-card);
-            transition: all 0.2s ease;
-        }
+        
 
         .email-input:focus {
             outline: none;
@@ -615,10 +583,7 @@
             <div style="margin-top: 32px; padding: 24px; background: var(--bg-card); border-radius: 14px;">
                 <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-main);">訂閱電子報</h3>
                 <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.6;">獲得每週的自我投資建議和生活品質提升秘訣</p>
-                <div class="email-form" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="text" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
-                    <button class="btn btn-primary" onclick="submitEmail()" style="padding: 12px 16px; background: var(--accent-deep); color: var(--bg-main); border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease;">訂閱</button>
-                </div>
+                
             </div>
 
                             </div>
@@ -925,44 +890,7 @@ function backToHome() {
     window.location.href = 'index.html';
 }
 
-function submitEmail() {
-    // Prevent multiple submissions
-    if (window.isSubmitting) return;
-    window.isSubmitting = true;
-    
-    const email = document.getElementById('emailInput').value;
-    if (!email || !email.includes('@')) {
-        showToast('請輸入有效的 Email');
-        window.isSubmitting = false;
-        return;
-    }
-    
-    // Disable button
-    const submitBtn = document.querySelector('.email-form button');
-    submitBtn.disabled = true;
-    
-    // Store email in localStorage
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userEmailTime', new Date().toISOString());
-    
-    // Get the result type
-    const resultType = window.pendingResult;
-    const r = results[resultType];
-    
-    // Show result immediately (don't wait for Google Sheets)
-    showResultScreen();
-    
-    // Submit to Google Sheets in background (fire and forget)
-    fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: new URLSearchParams({
-            email: email,
-            quizType: '退休規劃診斷',
-            result: r.name
-        })
-    }).catch(error => console.log('Google Sheets submission:', error));
-}
+
 
 function showResultScreen() {
     const resultType = window.pendingResult;

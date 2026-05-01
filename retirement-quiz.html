@@ -941,44 +941,7 @@ function backToHome() {
     window.location.href = 'index.html';
 }
 
-function submitEmail() {
-    // Prevent multiple submissions
-    if (window.isSubmitting) return;
-    window.isSubmitting = true;
-    
-    const email = document.getElementById('emailInput').value;
-    if (!email || !email.includes('@')) {
-        showToast('請輸入有效的 Email');
-        window.isSubmitting = false;
-        return;
-    }
-    
-    // Disable button
-    const submitBtn = document.querySelector('.email-form button');
-    submitBtn.disabled = true;
-    
-    // Store email in localStorage
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userEmailTime', new Date().toISOString());
-    
-    // Get the result type
-    const resultType = window.pendingResult;
-    const r = results[resultType];
-    
-    // Show result immediately (don't wait for Google Sheets)
-    showResultScreen();
-    
-    // Submit to Google Sheets in background (fire and forget)
-    fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: new URLSearchParams({
-            email: email,
-            quizType: '退休規劃診斷',
-            result: r.name
-        })
-    }).catch(error => console.log('Google Sheets submission:', error));
-}
+
 
 function showResultScreen() {
     const resultType = window.pendingResult;

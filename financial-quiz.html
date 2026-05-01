@@ -558,7 +558,6 @@
         </div>
     </div>
 
-
     <!-- 結果 -->
     <div class="screen" id="screenResult">
         <div class="result">
@@ -615,3 +614,349 @@
                         <span>預約一對一諮詢</span>
                         <span style="margin-left: auto;">→</span>
                     </a>
+            <!-- 訂閱電子報 -->
+            <div style="margin-top: 32px; padding: 24px; background: var(--bg-card); border-radius: 14px;">
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-main);">訂閱電子報</h3>
+                <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.6;">獲得每週的自我投資建議和生活品質提升秘訣</p>
+                <div class="email-form" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
+                    <button class="btn btn-primary" onclick="submitEmail()" style="padding: 12px 16px; background: var(--accent-deep); color: var(--bg-main); border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease;">訂閱</button>
+                </div>
+            </div>
+
+                            </div>
+            </div>
+
+            <div class="footer-mini">
+                診斷來自 <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a> · 皮皮.Yang
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const questions = [
+    {
+        q: "你目前每個月的儲蓄狀況是？",
+        options: [
+            { text: "幾乎沒辦法存錢", type: "D" },
+            { text: "能存 5-10% 收入", type: "A" },
+            { text: "能存 10-25% 收入", type: "B" },
+            { text: "能存 25% 以上", type: "C" }
+        ]
+    },
+    {
+        q: "對於投資，你的態度比較像？",
+        options: [
+            { text: "完全沒概念，不知道從哪開始", type: "D" },
+            { text: "只敢存定存，怕虧錢", type: "A" },
+            { text: "有買 ETF 或基金，求穩健", type: "B" },
+            { text: "有研究、敢接受波動", type: "C" }
+        ]
+    },
+    {
+        q: "如果投資虧損 20%，你會？",
+        options: [
+            { text: "完全不會想投資，不接受任何虧損", type: "D" },
+            { text: "可能立刻賣掉，太緊張了", type: "A" },
+            { text: "有點難受，但會繼續持有", type: "B" },
+            { text: "看狀況，可能反而加碼", type: "C" }
+        ]
+    },
+    {
+        q: "你目前對自己的財務「了解」到什麼程度？",
+        options: [
+            { text: "不太清楚，每個月薪水進來就花掉", type: "D" },
+            { text: "知道大概，但沒有詳細追蹤", type: "A" },
+            { text: "有記帳，知道收支結構", type: "B" },
+            { text: "清楚收支、資產配置、目標", type: "C" }
+        ]
+    },
+    {
+        q: "你有「緊急預備金」嗎？",
+        options: [
+            { text: "沒有概念，沒準備", type: "D" },
+            { text: "有一些，但不夠 3 個月生活費", type: "A" },
+            { text: "剛好 3-6 個月生活費", type: "B" },
+            { text: "6 個月以上，且有額外投資", type: "C" }
+        ]
+    },
+    {
+        q: "對「微退休」這件事，你最大的卡關是？",
+        options: [
+            { text: "不知道需要多少錢，根本沒概念", type: "D" },
+            { text: "知道要存錢但存不到目標", type: "A" },
+            { text: "存了一些但不確定夠不夠", type: "B" },
+            { text: "有明確數字，正在執行中", type: "C" }
+        ]
+    }
+];
+
+const results = {
+    A: {
+        icon: "🛡",
+        name: "保守型",
+        tagline: "你想穩，但穩不一定等於安全。",
+        trait: "你重視安全感，不喜歡有風險的東西。對你來說「不虧錢」比「賺更多」更重要。你的優勢是不會做衝動決策、財務體質穩定，缺點是錢只放定存，會被通膨慢慢吃掉。",
+        struggle: "你最容易卡在「不敢開始投資」的恐懼裡。但對微退休準備來說，純儲蓄通常不夠。你需要的不是「冒險」，是「理解風險再選擇」——這是兩件不一樣的事。",
+        path: "<ol><li>把緊急預備金（6 個月生活費）放好</li><li>多餘的錢開始學習低風險工具（債券 ETF、月配息）</li><li>找專業的人聊一次，建立基礎觀念再決定</li></ol>",
+        quote: "安全不是不動。<br>是知道風險、然後選擇怎麼動。"
+    },
+    B: {
+        icon: "⚖️",
+        name: "穩健型",
+        tagline: "你已經在路上了。",
+        trait: "你財務體質健康，會儲蓄、會投資、有規劃。對你來說財務不是焦慮，是有節奏的累積。你的優勢是長期主義、能執行計畫，缺點是可能太「按部就班」，少了優化的可能性。",
+        struggle: "你最容易卡在「不知道下一步要不要更積極」這個猶豫。穩健是好事，但微退休準備有時間賽跑的成分——如果還有 10 年以上，可以考慮稍微提高風險、加速累積。",
+        path: "<ol><li>重新檢視資產配置比例（保守 vs 成長）</li><li>設定「微退休目標金額」，反推每月需要存多少</li><li>找專業的人做一次體檢，確認方向是否最佳</li></ol>",
+        quote: "你已經在走，<br>現在可以走得更聰明一點。"
+    },
+    C: {
+        icon: "🚀",
+        name: "積極型",
+        tagline: "你跑得快，但要小心摔。",
+        trait: "你願意承擔風險、追求高報酬。對你來說「機會成本」比「虧損風險」更值得在意。你的優勢是行動快、累積速度高，缺點是可能在順風時太樂觀、逆風時受傷較重。",
+        struggle: "你最容易卡在「過度集中、缺乏緩衝」的問題上。積極是優勢，但微退休的本質是「可預測的自由」——不是賭一把賺到，是穩定累積、不被打回原點。",
+        path: "<ol><li>檢查你的緊急預備金是否充足（至少 6 個月生活費）</li><li>確認資產配置不要過度集中（單一股票 / 單一市場）</li><li>找專業的人協助設計「不會被一次黑天鵝打回原點」的配置</li></ol>",
+        quote: "你跑得快，<br>但跑得遠的人，都有後援。"
+    },
+    D: {
+        icon: "🌫",
+        name: "迷茫型",
+        tagline: "你不是不懂，你只是還沒開始懂。",
+        trait: "你目前對財務沒有具體概念，可能是因為一直忙、可能是因為覺得「以後再說」。這完全 OK——大部分上班族的起點都是這裡。你的優勢是還沒有壞習慣，缺點是時間正在流失。",
+        struggle: "你最容易卡在「不知道從哪開始」的無力感。財務不是天生的能力，是學來的。但你不需要一次學會所有東西，只需要從「今天可以做的一件事」開始。",
+        path: "<ol><li>先做最簡單的：記帳一個月，看清楚錢都去哪了</li><li>學一個基礎觀念：複利、緊急預備金、定期定額</li><li>找專業的人聊一次，把「不知道從哪開始」變成「知道第一步是什麼」</li></ol>",
+        quote: "你不需要立刻變專家。<br>你需要的，只是踏出第一步。"
+    }
+};
+
+let currentQuestion = 0;
+let answers = [];
+
+function startQuiz() {
+    document.getElementById('screenIntro').classList.remove('active');
+    document.getElementById('screenQuestion').classList.add('active');
+    document.getElementById('progressBar').classList.add('show');
+    currentQuestion = 0;
+    answers = [];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('questionNum').textContent = `第 ${currentQuestion + 1} 題 · 共 ${questions.length} 題`;
+    document.getElementById('questionText').textContent = q.q;
+
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+
+    q.options.forEach((opt, idx) => {
+        const div = document.createElement('button');
+        div.className = 'option';
+        if (answers[currentQuestion] === idx) div.classList.add('selected');
+        div.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt.text}</span>`;
+        div.onclick = () => selectOption(idx, div);
+        optionsDiv.appendChild(div);
+    });
+
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    document.getElementById('btnPrev').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+
+    const btnNext = document.getElementById('btnNext');
+    btnNext.disabled = answers[currentQuestion] === undefined;
+    btnNext.textContent = currentQuestion === questions.length - 1 ? '看結果' : '下一題';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOption(idx, el) {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[currentQuestion] = idx;
+    document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+    if (answers[currentQuestion] === undefined) return;
+
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function showResult() {
+    const count = { A: 0, B: 0, C: 0, D: 0 };
+    
+    for (let i = 0; i < answers.length; i++) {
+        const type = questions[i].options[answers[i]].type;
+        count[type]++;
+    }
+
+    let resultType = 'D';
+    let maxCount = -1;
+    
+    for (const type in count) {
+        if (count[type] > maxCount) {
+            maxCount = count[type];
+            resultType = type;
+        }
+    }
+
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultTrait').textContent = r.trait;
+    document.getElementById('resultStruggle').textContent = r.struggle;
+    document.getElementById('resultPath').innerHTML = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    document.getElementById('screenQuestion').classList.remove('active');
+    // Email form moved to result screen
+    document.getElementById('progressBar').classList.remove('show');
+    document.getElementById('screenResult').classList.add('active');
+    
+    window.pendingResult = resultType;
+    window.currentResultType = resultType;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shareResult() {
+    const r = results[window.currentResultType];
+    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的財務體質 ↓`;
+    const url = window.location.href;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '財經診斷',
+            text: text,
+            url: url
+        }).catch(() => copyToClipboard(text + '\n' + url));
+    } else {
+        copyToClipboard(text + '\n' + url);
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製分享文案，貼到 IG 限動就可以了！');
+    }).catch(() => {
+        showToast('請手動複製這個網址分享');
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function retryQuiz() {
+    document.getElementById('screenResult').classList.remove('active');
+    document.getElementById('screenIntro').classList.add('active');
+    currentQuestion = 0;
+    answers = [];
+    document.getElementById('progressFill').style.width = '0%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToHome() {
+    window.location.href = 'index.html';
+}
+
+function submitEmail() {
+    // Prevent multiple submissions
+    if (window.isSubmitting) return;
+    window.isSubmitting = true;
+    
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+        showToast('請輸入有效的 Email');
+        window.isSubmitting = false;
+        return;
+    }
+    
+    // Disable button
+    const submitBtn = document.querySelector('.email-form button');
+    submitBtn.disabled = true;
+    
+    // Store email in localStorage
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userEmailTime', new Date().toISOString());
+    
+    // Get the result type
+    const resultType = window.pendingResult;
+    const r = results[resultType];
+    
+    // Show result immediately (don't wait for Google Sheets)
+    showResultScreen();
+    
+    // Submit to Google Sheets in background (fire and forget)
+    fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams({
+            email: email,
+            quizType: '財經診斷',
+            result: r.name
+        })
+    }).catch(error => console.log('Google Sheets submission:', error));
+}
+
+function showResultScreen() {
+    const resultType = window.pendingResult;
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultTrait').textContent = r.trait;
+    document.getElementById('resultStruggle').textContent = r.struggle;
+    document.getElementById('resultPath').innerHTML = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    // Email form is now part of result screen
+    document.getElementById('screenResult').classList.add('active');
+    
+    window.currentResultType = resultType;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToResource(e) {
+    e.preventDefault();
+    showToast('免費資源連結即將推出，敬請期待！');
+}
+
+
+function subscribeNewsletter() {
+    // Replace with your Brevo form URL
+    const brevoFormUrl = 'https://423fb37f.sibforms.com/serve/MUIFAJIKZKzJxidgl50Dx2_rIKXgY5GGPJScYUo74hsx2pJSd9--5LhxbkRZ5drRxVqi_SQE2jcbuQt_61495E0DsGaKdFJddN58XbtFYL75IqXoHhVJqhAqfWFZrf7NfLfNfMrVyTKuTFaVAR7KI0wBUWrbMAaHWfBnuDG-ulIqK64GIMC5te-oZsd2yQawRgvkqv2CrGy4-RRREw==';
+    if (brevoFormUrl === 'BREVO_FORM_URL_HERE') {
+        showToast('電子報訂閱連結待設定');
+        return;
+    }
+    window.open(brevoFormUrl, '_blank');
+}
+</script>
+
+</body>
+</html>

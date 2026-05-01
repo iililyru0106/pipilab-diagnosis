@@ -555,7 +555,6 @@
         </div>
     </div>
 
-
     <!-- 結果 -->
     <div class="screen" id="screenResult">
         <div class="result">
@@ -612,3 +611,394 @@
                         <span>預約一對一諮詢</span>
                         <span style="margin-left: auto;">→</span>
                     </a>
+            <!-- 訂閱電子報 -->
+            <div style="margin-top: 32px; padding: 24px; background: var(--bg-card); border-radius: 14px;">
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-main);">訂閱電子報</h3>
+                <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.6;">獲得每週的自我投資建議和生活品質提升秘訣</p>
+                <div class="email-form" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
+                    <button class="btn btn-primary" onclick="submitEmail()" style="padding: 12px 16px; background: var(--accent-deep); color: var(--bg-main); border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease;">訂閱</button>
+                </div>
+            </div>
+
+                            </div>
+            </div>
+
+            <div class="footer-mini">
+                診斷來自 <a href="https://instagram.com/pipilab.co" target="_blank">@pipilab.co</a> · 皮皮.Yang
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== 題目資料 ==========
+const questions = [
+    {
+        q: "你想在幾歲退休？",
+        options: [
+            { text: "30 歲", score: 5 },
+            { text: "40 歲", score: 4 },
+            { text: "50 歲", score: 3 },
+            { text: "60 歲", score: 2 },
+            { text: "70 歲", score: 1 }
+        ]
+    },
+    {
+        q: "你的退休預算是多少？（每月生活費）",
+        options: [
+            { text: "月 3 萬", score: 5 },
+            { text: "月 5 萬", score: 4 },
+            { text: "月 8 萬", score: 2 },
+            { text: "月 10 萬", score: 1 },
+            { text: "不確定", score: 0 }
+        ]
+    },
+    {
+        q: "你心目中的退休大概是什麼樣子？",
+        options: [
+            { text: "完全不工作，有錢就去玩", score: 5 },
+            { text: "不上班，但接點自由案子", score: 4 },
+            { text: "靠副業 / 被動收入過生活", score: 3 },
+            { text: "邊工作邊過想要的生活，工作量自己決定", score: 2 }
+        ]
+    },
+    {
+        q: "你目前的存款狀況？",
+        options: [
+            { text: "已存到 100 萬以上", score: 5 },
+            { text: "已存到 50-100 萬", score: 4 },
+            { text: "已存到 20-50 萬", score: 3 },
+            { text: "已存到 10-20 萬", score: 2 },
+            { text: "存款不足 10 萬", score: 1 }
+        ]
+    },
+    {
+        q: "你通常能堅持做一件事多久？",
+        options: [
+            { text: "1 週", score: 1 },
+            { text: "1 個月", score: 2 },
+            { text: "3 個月", score: 3 },
+            { text: "6 個月以上", score: 4 },
+            { text: "1 年以上", score: 5 }
+        ]
+    },
+    {
+        q: "當工作很忙時，你會怎樣？",
+        options: [
+            { text: "放棄開始副業的念頭", score: 1 },
+            { text: "等工作不忙再開始", score: 2 },
+            { text: "利用碎片時間開始", score: 3 },
+            { text: "想辦法擠出時間", score: 4 },
+            { text: "已經在做副業了", score: 5 }
+        ]
+    },
+    {
+        q: "你最大的時間殺手是什麼？",
+        options: [
+            { text: "社群媒體", score: 1 },
+            { text: "工作加班", score: 2 },
+            { text: "家務事", score: 2 },
+            { text: "沒有特別的", score: 4 },
+            { text: "已經管理得很好", score: 5 }
+        ]
+    },
+    {
+        q: "面對未來的不確定感，你的習慣是？",
+        options: [
+            { text: "希望有人能告訴我答案", score: 1 },
+            { text: "暫時放著，等到時機自己出現", score: 2 },
+            { text: "找朋友聊一聊，多聽別人怎麼想", score: 3 },
+            { text: "持續往前走，不確定就邊走邊看", score: 4 },
+            { text: "把能掌握的部分做到最好", score: 5 }
+        ]
+    },
+    {
+        q: "你對「微退休」的想法比較接近哪一個？",
+        options: [
+            { text: "聽起來很棒，但好像離我很遠", score: 1 },
+            { text: "想要，但不知道怎麼開始", score: 2 },
+            { text: "有想法但沒開始行動", score: 3 },
+            { text: "已經開始準備了", score: 4 },
+            { text: "已經有具體的計畫", score: 5 }
+        ]
+    },
+    {
+        q: "對你來說，微退休最吸引人的是什麼？",
+        options: [
+            { text: "可以喘口氣，不用一直焦慮", score: 1 },
+            { text: "可以去看看世界、認識自己", score: 2 },
+            { text: "可以做自己喜歡的事", score: 3 },
+            { text: "可以擺脫被工作填滿的生活", score: 4 },
+            { text: "有時間做自己長期想做的事", score: 5 }
+        ]
+    }
+];
+
+// ========== 結果資料 ==========
+const results = {
+    high: {
+        icon: "🚀",
+        name: "準備充足型",
+        tagline: "你已經走在對的路上。",
+        status: "你已經有明確的目標、存款計畫，並且在執行中。你的微退休夢想不是夢想，是可以預見的未來。",
+        action: "現在的重點是「加速」。檢視你的副業進度、投資報酬率，看看有沒有可以優化的地方。",
+        path: "你適合的路徑：持續執行現有計畫，每季檢視一次進度。如果進度超前，可以考慮提前退休的時間。",
+        quote: "你的計畫已經很清楚了。<br>現在就是按下執行的那個鍵。"
+    },
+    medium: {
+        icon: "🌿",
+        name: "準備中期型",
+        tagline: "你有方向，但還需要加速。",
+        status: "你對微退休有想法，也有一些準備，但還沒有完整的計畫。你知道要往哪走，但步伐還不夠快。",
+        action: "現在需要把想法變成具體行動。設定一個 3 年的目標，拆解成每年要做的事。",
+        path: "你適合的路徑：先梳理現有的資源（存款、時間、技能），再決定要從哪裡開始加速。可以考慮副業或投資來加快進度。",
+        quote: "你知道方向，但需要加快腳步。<br>從今天開始，做一件具體的事。"
+    },
+    low: {
+        icon: "🌙",
+        name: "準備初期型",
+        tagline: "你還在累積能量。",
+        status: "微退休對你來說還是一個遠遠的夢想。可能是因為工作太忙、可能是還沒找到方向、可能是焦慮大於行動。",
+        action: "不要想太大的事。先從「今天可以做的 5 分鐘」開始——讀一篇相關的文章、跟一個人聊聊、寫下一個想法。",
+        path: "你適合的路徑：先建立「微退休」的概念，再逐步累積。可以從記錄支出、設定小目標開始。每個月進步一點點，一年後你會看到很大的改變。",
+        quote: "你不需要從大事開始。<br>你需要的，只是先動一下。"
+    }
+};
+
+// ========== 狀態 ==========
+let currentQuestion = 0;
+let answers = [];
+
+// ========== 函數 ==========
+function startQuiz() {
+    document.getElementById('screenIntro').classList.remove('active');
+    document.getElementById('screenQuestion').classList.add('active');
+    document.getElementById('progressBar').classList.add('show');
+    currentQuestion = 0;
+    answers = [];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('questionNum').textContent = `第 ${currentQuestion + 1} 題 · 共 ${questions.length} 題`;
+    document.getElementById('questionText').textContent = q.q;
+
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    q.options.forEach((opt, idx) => {
+        const div = document.createElement('button');
+        div.className = 'option';
+        if (answers[currentQuestion] === idx) div.classList.add('selected');
+        div.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt.text}</span>`;
+        div.onclick = () => selectOption(idx, div);
+        optionsDiv.appendChild(div);
+    });
+
+    // 進度條
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    // 上一題按鈕
+    document.getElementById('btnPrev').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+
+    // 下一題按鈕
+    const btnNext = document.getElementById('btnNext');
+    btnNext.disabled = answers[currentQuestion] === undefined;
+    btnNext.textContent = currentQuestion === questions.length - 1 ? '看結果' : '下一題';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOption(idx, el) {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[currentQuestion] = idx;
+    document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+    if (answers[currentQuestion] === undefined) return;
+
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function showResult() {
+    // 計算總分
+    let totalScore = 0;
+    answers.forEach(answerIdx => {
+        totalScore += questions[currentQuestion - answers.length + 1 + answers.indexOf(answerIdx)].options[answerIdx].score;
+    });
+
+    // 重新計算（正確版本）
+    totalScore = 0;
+    for (let i = 0; i < answers.length; i++) {
+        totalScore += questions[i].options[answers[i]].score;
+    }
+
+    let resultType;
+    if (totalScore >= 35) {
+        resultType = 'high';
+    } else if (totalScore >= 20) {
+        resultType = 'medium';
+    } else {
+        resultType = 'low';
+    }
+
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultStatus').textContent = r.status;
+    document.getElementById('resultAction').textContent = r.action;
+    document.getElementById('resultPath').textContent = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+     document.getElementById('screenQuestion').classList.remove('active');
+    // Email form moved to result screen
+    document.getElementById('progressBar').classList.remove('show');
+    document.getElementById('screenResult').classList.add('active');
+    
+    window.pendingResult = resultType;
+    window.currentResultType = resultType;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function shareResult() {
+    const r = results[window.currentResultType];
+    const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的微退休準備進度 ↓`;
+    const url = window.location.href;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '退休規劃診斷',
+            text: text,
+            url: url
+        }).catch(() => copyToClipboard(text + '\n' + url));
+    } else {
+        copyToClipboard(text + '\n' + url);
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製分享文案，貼到 IG 限動就可以了！');
+    }).catch(() => {
+        showToast('請手動複製這個網址分享');
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function retryQuiz() {
+    document.getElementById('screenResult').classList.remove('active');
+    document.getElementById('screenIntro').classList.add('active');
+    currentQuestion = 0;
+    answers = [];
+    document.getElementById('progressFill').style.width = '0%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToHome() {
+    window.location.href = 'index.html';
+}
+
+function submitEmail() {
+    // Prevent multiple submissions
+    if (window.isSubmitting) return;
+    window.isSubmitting = true;
+    
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+        showToast('請輸入有效的 Email');
+        window.isSubmitting = false;
+        return;
+    }
+    
+    // Disable button
+    const submitBtn = document.querySelector('.email-form button');
+    submitBtn.disabled = true;
+    
+    // Store email in localStorage
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userEmailTime', new Date().toISOString());
+    
+    // Get the result type
+    const resultType = window.pendingResult;
+    const r = results[resultType];
+    
+    // Show result immediately (don't wait for Google Sheets)
+    showResultScreen();
+    
+    // Submit to Google Sheets in background (fire and forget)
+    fetch('https://script.google.com/macros/s/AKfycbwei9Qvo9D6MKlMteg4uh8vxI9LqdwgypmXCwAainzoLIsHwsc27qZtWUo_EFJYKR7s/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams({
+            email: email,
+            quizType: '退休規劃診斷',
+            result: r.name
+        })
+    }).catch(error => console.log('Google Sheets submission:', error));
+}
+
+function showResultScreen() {
+    const resultType = window.pendingResult;
+    const r = results[resultType];
+
+    document.getElementById('resultIcon').textContent = r.icon;
+    document.getElementById('resultName').textContent = r.name;
+    document.getElementById('resultTagline').textContent = r.tagline;
+    document.getElementById('resultStatus').textContent = r.status;
+    document.getElementById('resultAction').textContent = r.action;
+    document.getElementById('resultPath').innerHTML = r.path;
+    document.getElementById('resultQuote').innerHTML = r.quote;
+
+    // Email form is now part of result screen
+    document.getElementById('screenResult').classList.add('active');
+    
+    window.currentResultType = resultType;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToResource(e) {
+    e.preventDefault();
+    showToast('免費資源連結即將推出，敬請期待！');
+}
+
+
+function subscribeNewsletter() {
+    // Replace with your Brevo form URL
+    const brevoFormUrl = 'https://423fb37f.sibforms.com/serve/MUIFAJIKZKzJxidgl50Dx2_rIKXgY5GGPJScYUo74hsx2pJSd9--5LhxbkRZ5drRxVqi_SQE2jcbuQt_61495E0DsGaKdFJddN58XbtFYL75IqXoHhVJqhAqfWFZrf7NfLfNfMrVyTKuTFaVAR7KI0wBUWrbMAaHWfBnuDG-ulIqK64GIMC5te-oZsd2yQawRgvkqv2CrGy4-RRREw==';
+    if (brevoFormUrl === 'BREVO_FORM_URL_HERE') {
+        showToast('電子報訂閱連結待設定');
+        return;
+    }
+    window.open(brevoFormUrl, '_blank');
+}
+</script>
+
+</body>
+</html>

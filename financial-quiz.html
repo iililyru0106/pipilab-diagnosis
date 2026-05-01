@@ -818,8 +818,10 @@ function showResult() {
     const count = { A: 0, B: 0, C: 0, D: 0 };
     
     for (let i = 0; i < answers.length; i++) {
-        const type = questions[i].options[answers[i]].type;
-        count[type]++;
+        if (answers[i] !== undefined && questions[i] && questions[i].options[answers[i]]) {
+            const type = questions[i].options[answers[i]].type;
+            count[type]++;
+        }
     }
 
     let resultType = 'D';

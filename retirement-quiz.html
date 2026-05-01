@@ -864,7 +864,9 @@ function showResult() {
     // 重新計算（正確版本）
     totalScore = 0;
     for (let i = 0; i < answers.length; i++) {
-        totalScore += questions[i].options[answers[i]].score;
+        if (answers[i] !== undefined && questions[i] && questions[i].options[answers[i]]) {
+            totalScore += questions[i].options[answers[i]].score;
+        }
     }
 
     let resultType;

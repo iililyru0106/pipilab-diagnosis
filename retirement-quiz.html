@@ -563,7 +563,7 @@
                 輸入你的 Email，我們會把診斷結果和免費資源寄給你
             </p>
             <div class="email-form">
-                <input type="email" id="emailInput" class="email-input" placeholder="你的 Email" required>
+                <input type="text" id="emailInput" class="email-input" placeholder="你的 Email" required>
                 <button class="btn btn-primary" onclick="submitEmail()">取得結果</button>
             </div>
         </div>
@@ -630,7 +630,7 @@
                 <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-main);">訂閱電子報</h3>
                 <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.6;">獲得每週的自我投資建議和生活品質提升秘訣</p>
                 <div class="email-form" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="email" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
+                    <input type="text" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
                     <button class="btn btn-primary" onclick="submitEmail()" style="padding: 12px 16px; background: var(--accent-deep); color: var(--bg-main); border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease;">訂閱</button>
                 </div>
             </div>
@@ -671,13 +671,12 @@ const questions = [
         ]
     },
     {
-        q: "你想要什麼樣的退休生活？",
+        q: "你心目中的退休大概是什麼樣子？",
         options: [
-            { text: "簡樸", score: 5 },
-            { text: "舒適", score: 3 },
-            { text: "奢華", score: 1 },
-            { text: "還沒想過", score: 0 },
-            { text: "邊工作邊休閒", score: 2 }
+            { text: "完全不工作，有錢就去玩", score: 5 },
+            { text: "不上班，但接點自由案子", score: 4 },
+            { text: "靠副業 / 被動收入過生活", score: 3 },
+            { text: "邊工作邊過想要的生活，工作量自己決定", score: 2 }
         ]
     },
     {

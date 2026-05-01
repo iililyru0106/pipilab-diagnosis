@@ -824,8 +824,10 @@ function showResult() {
     document.getElementById('screenQuestion').classList.remove('active');
     // Email form moved to result screen
     document.getElementById('progressBar').classList.remove('show');
+    document.getElementById('screenResult').classList.add('active');
     
     window.pendingResult = resultType;
+    window.currentResultType = resultType;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }

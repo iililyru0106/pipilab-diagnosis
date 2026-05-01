@@ -887,15 +887,15 @@ function showResult() {
     document.getElementById('resultPath').textContent = r.path;
     document.getElementById('resultQuote').innerHTML = r.quote;
 
-    document.getElementById('screenQuestion').classList.remove('active');
+     document.getElementById('screenQuestion').classList.remove('active');
     // Email form moved to result screen
     document.getElementById('progressBar').classList.remove('show');
+    document.getElementById('screenResult').classList.add('active');
     
     window.pendingResult = resultType;
-
+    window.currentResultType = resultType;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function shareResult() {
     const r = results[window.currentResultType];
     const text = `我是「${r.name}」\n${r.tagline}\n\n你呢？來測測看你的微退休準備進度 ↓`;

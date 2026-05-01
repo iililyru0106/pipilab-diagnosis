@@ -628,7 +628,17 @@
                         <span>預約一對一諮詢</span>
                         <span style="margin-left: auto;">→</span>
                     </a>
+            <!-- 訂閱電子報 -->
+            <div style="margin-top: 32px; padding: 24px; background: var(--bg-card); border-radius: 14px;">
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-main);">訂閱電子報</h3>
+                <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.6;">獲得每週的自我投資建議和生活品質提升秘訣</p>
+                <div class="email-form" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="email" id="emailInput" class="email-input" placeholder="你的 Email" required style="padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: 10px; font-family: inherit; font-size: 14px; background: var(--bg-main); color: var(--text-main);">
+                    <button class="btn btn-primary" onclick="submitEmail()" style="padding: 12px 16px; background: var(--accent-deep); color: var(--bg-main); border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease;">訂閱</button>
                 </div>
+            </div>
+
+                            </div>
             </div>
 
             <div class="footer-mini">
@@ -833,7 +843,7 @@ function showResult() {
     document.getElementById('resultQuote').innerHTML = r.quote;
 
     document.getElementById('screenQuestion').classList.remove('active');
-    document.getElementById('screenEmail').classList.add('active');
+    // Email form moved to result screen
     document.getElementById('progressBar').classList.remove('show');
     
     window.pendingResult = resultType;
@@ -936,7 +946,7 @@ function showResultScreen() {
     document.getElementById('resultPath').innerHTML = r.path;
     document.getElementById('resultQuote').innerHTML = r.quote;
 
-    document.getElementById('screenEmail').classList.remove('active');
+    // Email form is now part of result screen
     document.getElementById('screenResult').classList.add('active');
     
     window.currentResultType = resultType;
